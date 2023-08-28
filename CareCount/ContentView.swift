@@ -9,13 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            ZStack {
+                Color("backgroundPink")
+                    .ignoresSafeArea()
+                VStack(spacing: -10) {
+                    Image("Logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.all)
+                    HStack(spacing: 15) {
+                        NavigationLink(destination: MainView()) {
+                            Text("Sign In")
+                                .frame(maxWidth: .infinity)
+                        }.buttonStyle(CustomButtonStyle())
+                        NavigationLink(destination: MainView()) {
+                            Text("Sign Up")
+                                .frame(maxWidth: .infinity)
+                        }.buttonStyle(CustomButtonStyle())
+                    }.padding(.horizontal, 40)
+                }
+            }
         }
-        .padding()
     }
 }
 
@@ -24,3 +39,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
