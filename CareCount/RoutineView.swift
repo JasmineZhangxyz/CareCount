@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  RoutineView.swift
 //  CareCount
 //
 //  Created by Jasmine Zhang on 8/28/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct RoutineView: View {
     @State private var isAddingTask = false
     @State private var tasks: [Task] = []
     @State private var newTaskName = ""
@@ -359,8 +359,8 @@ struct Task {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
+struct RoutineView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        RoutineView()
     }
 }

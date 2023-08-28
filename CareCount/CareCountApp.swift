@@ -11,7 +11,7 @@ import SwiftUI
 struct CareCountApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LandingView()
         }
     }
 }

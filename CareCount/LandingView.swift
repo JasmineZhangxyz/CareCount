@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  LandingView.swift
 //  CareCount
 //
 //  Created by Jasmine Zhang on 8/28/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct LandingView: View {
     var body: some View {
         NavigationView {
             ZStack {
@@ -19,11 +19,11 @@ struct ContentView: View {
                         .aspectRatio(contentMode: .fit)
                         .padding(.all)
                     HStack(spacing: 15) {
-                        NavigationLink(destination: MainView()) {
+                        NavigationLink(destination: RoutineView()) {
                             Text("Sign In")
                                 .frame(maxWidth: .infinity)
                         }.buttonStyle(CustomButtonStyle())
-                        NavigationLink(destination: MainView()) {
+                        NavigationLink(destination: RoutineView()) {
                             Text("Sign Up")
                                 .frame(maxWidth: .infinity)
                         }.buttonStyle(CustomButtonStyle())
@@ -34,9 +34,9 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct LandingView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LandingView()
     }
 }
 

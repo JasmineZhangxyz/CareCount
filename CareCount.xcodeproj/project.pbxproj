@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		249307222A9D1725005522D5 /* CareCountApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307212A9D1725005522D5 /* CareCountApp.swift */; };
-		249307242A9D1725005522D5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307232A9D1725005522D5 /* ContentView.swift */; };
+		249307242A9D1725005522D5 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307232A9D1725005522D5 /* LandingView.swift */; };
 		249307262A9D1726005522D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 249307252A9D1726005522D5 /* Assets.xcassets */; };
 		249307292A9D1726005522D5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 249307282A9D1726005522D5 /* Preview Assets.xcassets */; };
-		249307302A9D18CC005522D5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493072F2A9D18CC005522D5 /* MainView.swift */; };
+		249307302A9D18CC005522D5 /* RoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493072F2A9D18CC005522D5 /* RoutineView.swift */; };
 		249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307312A9D194F005522D5 /* CustomButtonStyle.swift */; };
 		249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307332A9D2038005522D5 /* RoutineListItems.swift */; };
 /* End PBXBuildFile section */
@@ -19,10 +19,10 @@
 /* Begin PBXFileReference section */
 		2493071E2A9D1725005522D5 /* CareCount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CareCount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		249307212A9D1725005522D5 /* CareCountApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareCountApp.swift; sourceTree = "<group>"; };
-		249307232A9D1725005522D5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		249307232A9D1725005522D5 /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		249307252A9D1726005522D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		249307282A9D1726005522D5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		2493072F2A9D18CC005522D5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		2493072F2A9D18CC005522D5 /* RoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineView.swift; sourceTree = "<group>"; };
 		249307312A9D194F005522D5 /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 		249307332A9D2038005522D5 /* RoutineListItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListItems.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,8 +58,8 @@
 			isa = PBXGroup;
 			children = (
 				249307212A9D1725005522D5 /* CareCountApp.swift */,
-				249307232A9D1725005522D5 /* ContentView.swift */,
-				2493072F2A9D18CC005522D5 /* MainView.swift */,
+				249307232A9D1725005522D5 /* LandingView.swift */,
+				2493072F2A9D18CC005522D5 /* RoutineView.swift */,
 				249307312A9D194F005522D5 /* CustomButtonStyle.swift */,
 				249307332A9D2038005522D5 /* RoutineListItems.swift */,
 				249307252A9D1726005522D5 /* Assets.xcassets */,
@@ -146,8 +146,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				249307242A9D1725005522D5 /* ContentView.swift in Sources */,
-				249307302A9D18CC005522D5 /* MainView.swift in Sources */,
+				249307242A9D1725005522D5 /* LandingView.swift in Sources */,
+				249307302A9D18CC005522D5 /* RoutineView.swift in Sources */,
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
 				249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */,
 				249307222A9D1725005522D5 /* CareCountApp.swift in Sources */,
