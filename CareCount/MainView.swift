@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     @State private var isAddingTask = false
     @State private var tasks: [Task] = []
-    @State private var newTaskName: String = ""
+    @State private var newTaskName = ""
     @State private var selectedDays: Set<Day> = []
     @State private var editingIndex: Int?
     
@@ -31,35 +31,14 @@ struct MainView: View {
                 
                 ScrollView {
                     VStack(spacing: -10) {
-                        ForEach(0..<tasks.count, id: \.self) { index in
-                            Button(action: { editingIndex = index }) {
-                                HStack {
-                                    Text(tasks[index].name)
-                                        .fontWeight(.bold)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.leading)
-                                        .foregroundColor(.black)
-                                    
-                                    Spacer()
-                                    
-                                    Text(tasks[index].selectedDaysAbbreviated)
-                                        .padding(.trailing)
-                                        .foregroundColor(.black)
-                                }
-                                .padding(.vertical)
-                                .padding(.horizontal, 10)
-                                .foregroundColor(.black)
-                                .background(.white)
-                                .cornerRadius(10)
-                            }
-                            .buttonStyle(RoutineListItems())
+                        ForEach(tasks.indices, id: \.self) { index in
+                            TaskButton(task: tasks[index], action: { editTask(index) })
+                                .buttonStyle(RoutineListItems())
                         }
                     }
                 }
                 
-                Button(action: {
-                    isAddingTask = true
-                }) {
+                Button(action: { isAddingTask = true }) {
                     Text("+")
                         .font(.title)
                         .fontWeight(.regular)
@@ -67,14 +46,49 @@ struct MainView: View {
                         .frame(width: 75)
                         .padding()
                         .foregroundColor(.black)
-                        .background(.white)
+                        .background(Color.white)
                         .cornerRadius(25)
                 }
                 .padding()
-                .fullScreenCover(isPresented: $isAddingTask, content: {
+                .fullScreenCover(isPresented: $isAddingTask) {
                     AddTaskView(isPresented: $isAddingTask, tasks: $tasks, newTaskName: $newTaskName, selectedDays: $selectedDays)
-                })
+                }
             }
+        }
+    }
+    
+    func editTask(_ index: Int) {
+        editingIndex = index
+        let task = tasks[index]
+        newTaskName = task.name
+        selectedDays = task.selectedDays
+        isAddingTask = true
+    }
+}
+
+struct TaskButton: View {
+    let task: Task
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Text(task.name)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading)
+                    .foregroundColor(.black)
+                
+                Spacer()
+                
+                Text(task.selectedDaysAbbreviated)
+                    .padding(.trailing)
+                    .foregroundColor(.black)
+            }
+            .padding([.vertical, .horizontal], 10)
+            .foregroundColor(.black)
+            .background(Color.white)
+            .cornerRadius(10)
         }
     }
 }
@@ -94,8 +108,9 @@ struct AddTaskView: View {
             VStack(alignment: .leading) {
                 Text("Add a task")
                     .font(.title)
-                    .padding([.top, .leading, .trailing])
-                
+                    .padding(.horizontal)
+                    .padding(.top)
+
                 TextField("Task", text: $newTaskName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
@@ -104,63 +119,43 @@ struct AddTaskView: View {
                 Text("Frequency")
                     .font(.headline)
                     .padding(.horizontal)
+
+                WeekdaySelectionView(selectedDays: $selectedDays, selectedFrequency: $selectedFrequency)
+                    .padding(.horizontal)
+                    .padding(.bottom, 30)
                 
-                HStack(spacing: 0) {
-                    ForEach(Day.allCases, id: \.self) { day in
-                        Button(action: {
-                            if selectedDays.contains(day) {
-                                selectedDays.remove(day)
-                            } else {
-                                selectedDays.insert(day)
-                            }
-                            
-                            if selectedDays.count == Day.allCases.count {
-                                selectedFrequency = .allWeekdays
-                            }
-                        }) {
-                            Circle()
-                                .stroke(Color("darkPink"), lineWidth: 2)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(selectedDays.contains(day) ? Color("darkPink") : Color.clear)
-                                .background(
-                                    Circle()
-                                        .foregroundColor(selectedDays.contains(day) ? Color("darkPink") : Color.clear)
-                                )
-                                .overlay(
-                                    Text(day.abbreviatedValue)
-                                        .foregroundColor(selectedDays.contains(day) ? .white : Color("darkPink"))
-                                        .font(.body)
-                                )
-                                .padding(5)
+                // Show the delete button only when editing an existing task
+                if isEditingTask {
+                    ActionButtonsView(
+                        saveAction: { onSaveButtonTapped() },
+                        deleteAction: { onDeleteButtonTapped() },
+                        cancelAction: { onCancelButtonTapped() }
+                    )
+                    .padding(.horizontal)
+                } else {
+                    // Show only save and cancel buttons when creating a task
+                    HStack {
+                        Spacer()
+                        
+                        Button("Save") {
+                            onSaveButtonTapped()
                         }
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 30)
-
-
-                HStack(spacing: -5) {
-                    Spacer()
-                    Button(action: {
-                        isPresented = false
-                        addTask()
-                    }) {
-                        Text("Add")
-                            .frame(width: 55)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color("darkPink"))
-                            .cornerRadius(10)
-                    }
-                    Button(action: {
-                        isPresented = false
-                    }) {
-                        Text("Cancel")
-                            .frame(width: 55)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(.gray)
-                            .cornerRadius(10)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color("darkPink"))
+                        .cornerRadius(10)
+                        
+                        Button("Cancel") {
+                            onCancelButtonTapped()
+                        }
+                        .foregroundColor(Color("darkPink"))
+                        .padding()
+                        .background(Color.clear)
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color("darkPink"), lineWidth: 2)
+                        )
                     }
                     .padding(.horizontal)
                 }
@@ -169,12 +164,148 @@ struct AddTaskView: View {
         }
     }
     
+    func onSaveButtonTapped() {
+        if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
+            updateTask(at: index)
+        } else {
+            addTask()
+        }
+        isPresented = false
+    }
+    
+    var isEditingTask: Bool {
+        if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
+            return true
+        }
+        return false
+    }
+    
+    func onDeleteButtonTapped() {
+        if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
+            deleteTask(at: index)
+            isPresented = false
+        }
+    }
+    
+    func onCancelButtonTapped() {
+        isPresented = false
+    }
+    
     func addTask() {
         tasks.append(Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays))
+        clearFields()
+    }
+    
+    func updateTask(at index: Int) {
+        tasks[index] = Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays)
+        clearFields()
+    }
+        
+    func deleteTask(at index: Int) {
+        tasks.remove(at: index)
+        clearFields()
+    }
+    
+    func clearFields() {
         newTaskName = ""
         selectedDays = []
     }
 }
+
+struct WeekdaySelectionView: View {
+    @Binding var selectedDays: Set<Day>
+    @Binding var selectedFrequency: Frequency
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(Day.allCases, id: \.self) { day in
+                DayButton(day: day, isSelected: selectedDays.contains(day)) {
+                    toggleDaySelection(day)
+                }
+            }
+        }
+    }
+    
+    private func toggleDaySelection(_ day: Day) {
+        if selectedDays.contains(day) {
+            selectedDays.remove(day)
+        } else {
+            selectedDays.insert(day)
+        }
+        
+        if selectedDays.count == Day.allCases.count {
+            selectedFrequency = .allWeekdays
+        }
+    }
+}
+
+struct DayButton: View {
+    let day: Day
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Circle()
+                .stroke(Color("darkPink"), lineWidth: 2)
+                .frame(width: 40, height: 40)
+                .foregroundColor(isSelected ? Color("darkPink") : Color.clear)
+                .background(
+                    Circle()
+                        .foregroundColor(isSelected ? Color("darkPink") : Color.clear)
+                )
+                .overlay(
+                    Text(day.abbreviatedValue)
+                        .foregroundColor(isSelected ? .white : Color("darkPink"))
+                        .font(.body)
+                )
+                .padding(5)
+        }
+    }
+}
+
+struct ActionButtonsView: View {
+    let saveAction: () -> Void
+    let deleteAction: () -> Void
+    let cancelAction: () -> Void
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            
+            Button(action: saveAction) {
+                ActionButton(label: "Save", textcolor: Color.white, color: Color("darkPink"))
+            }
+            
+            Button(action: deleteAction) {
+                ActionButton(label: "Delete", textcolor: Color.white, color: Color.gray)
+            }
+            
+            Button(action: cancelAction) {
+                ActionButton(label: "Cancel", textcolor: Color("darkPink"), color: Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("darkPink"), lineWidth: 2)
+                    )
+            }
+        }
+    }
+}
+
+struct ActionButton: View {
+    let label: String
+    let textcolor: Color
+    let color: Color
+    
+    var body: some View {
+        Text(label)
+            .padding()
+            .foregroundColor(textcolor)
+            .background(color)
+            .cornerRadius(10)
+    }
+}
+
 
 enum Frequency: String, CaseIterable {
     case daily = "Daily"
