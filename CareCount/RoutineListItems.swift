@@ -10,7 +10,8 @@ import SwiftUI
 struct RoutineListItems: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding()
+            .padding(.horizontal, 30)
+            .padding(.vertical)
             .foregroundColor(.black)
             .background(Color("white"))
             .cornerRadius(10)

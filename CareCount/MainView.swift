@@ -35,6 +35,7 @@ struct MainView: View {
                             Button(action: { editingIndex = index }) {
                                 HStack {
                                     Text(tasks[index].name)
+                                        .fontWeight(.bold)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.leading)
                                         .foregroundColor(.black)
@@ -45,9 +46,11 @@ struct MainView: View {
                                         .padding(.trailing)
                                         .foregroundColor(.black)
                                 }
-                                .background(Color.white)
+                                .padding(.vertical)
+                                .padding(.horizontal, 10)
+                                .foregroundColor(.black)
+                                .background(.white)
                                 .cornerRadius(10)
-                                .padding()
                             }
                             .buttonStyle(RoutineListItems())
                         }
@@ -209,8 +212,19 @@ struct Task {
     var selectedDays: Set<Day>
     
     var selectedDaysAbbreviated: String {
-        let sortedDays = selectedDays.sorted(by: { $0.rawValue < $1.rawValue })
-        return sortedDays.map { $0.abbreviatedValue }.joined(separator: " ")
+        if selectedDays.count == Day.allCases.count {
+            return "Daily"
+        }
+        else if selectedDays == Set([.mon, .tue, .wed, .thu, .fri]) {
+            return "Weekdays"
+        }
+        else if selectedDays == Set([.sat, .sun]) {
+            return "Weekends"
+        }
+        else {
+            let sortedDays = Day.allCases.filter { selectedDays.contains($0) }
+            return sortedDays.map { $0.rawValue }.joined(separator: " ")
+        }
     }
 }
 
