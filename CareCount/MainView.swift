@@ -85,7 +85,7 @@ struct TaskButton: View {
                     .padding(.trailing)
                     .foregroundColor(.black)
             }
-            .padding([.vertical, .horizontal], 10)
+            .padding()
             .foregroundColor(.black)
             .background(Color.white)
             .cornerRadius(10)
