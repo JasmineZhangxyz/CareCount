@@ -29,7 +29,7 @@ struct SignInView: View {
                 
                 AccountInfoText(email: $email, password: $password)
                 
-                NavigationLink(destination: HomeView()) {
+                NavigationLink(destination: ContentView()) {
                     Text("Sign In")
                         .frame(maxWidth: .infinity, maxHeight: 2)
                         .font(.system(size:14))
