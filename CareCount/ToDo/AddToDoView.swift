@@ -18,9 +18,11 @@ struct AddToDoView: View {
             Color("popupPink")
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading) {
-                Text("Add a To-Do")
-                    .font(.title)
+            VStack {
+                Text(isEditingToDo ? "Edit To-Do" : "Add To-Do")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
                     .padding(.top)
 
