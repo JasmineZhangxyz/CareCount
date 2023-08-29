@@ -24,10 +24,6 @@ struct ProfileView: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color("darkPink"))
             }
-            VStack {
-                Spacer()
-                FooterView(selectedTab: $tabSelected)
-            }
         }
     }
 }

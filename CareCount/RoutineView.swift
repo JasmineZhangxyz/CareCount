@@ -58,9 +58,6 @@ struct RoutineView: View {
                 .fullScreenCover(isPresented: $isAddingTask) {
                     AddTaskView(isPresented: $isAddingTask, tasks: $tasks, newTaskName: $newTaskName, selectedDays: $selectedDays)
                 }
-                
-                Spacer()
-                FooterView(selectedTab: $tabSelected)
             }
         }
     }

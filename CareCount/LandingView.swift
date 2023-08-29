@@ -19,11 +19,11 @@ struct LandingView: View {
                         .aspectRatio(contentMode: .fit)
                         .padding(.all)
                     HStack(spacing: 15) {
-                        NavigationLink(destination: RoutineView()) {
+                        NavigationLink(destination: ContentView()) {
                             Text("Sign In")
                                 .frame(maxWidth: .infinity)
                         }.buttonStyle(CustomButtonStyle())
-                        NavigationLink(destination: RoutineView()) {
+                        NavigationLink(destination: ContentView()) {
                             Text("Sign Up")
                                 .frame(maxWidth: .infinity)
                         }.buttonStyle(CustomButtonStyle())
