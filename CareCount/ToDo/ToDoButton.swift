@@ -42,7 +42,7 @@ struct ToDoButton: View {
             .foregroundColor(.black)
             .background(Color.white)
             .cornerRadius(10)
-            .opacity(todo.isDone ? 0.7 : 1.0)
+            .opacity(todo.isDone ? 0.5 : 1.0)
         }
     }
 }

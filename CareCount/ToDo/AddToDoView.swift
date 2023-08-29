@@ -42,15 +42,17 @@ struct AddToDoView: View {
                             .cornerRadius(10)
                     }
                     
-                    Button("Cancel", action: onCancelButtonTapped)
-                        .foregroundColor(Color("darkPink"))
-                        .padding()
-                        .background(Color.clear)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color("darkPink"), lineWidth: 2)
-                        )
+                    Button(action: closeModal) {
+                        Text("Cancel")
+                            .foregroundColor(Color("darkPink"))
+                            .padding()
+                            .background(Color.clear)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("darkPink"), lineWidth: 2)
+                            )
+                    }
                 }
                 .padding(.horizontal)
             }
@@ -58,21 +60,23 @@ struct AddToDoView: View {
         }
     }
     
-    func onSaveButtonTapped() {
-        if let index = todos.firstIndex(where: { $0.name == oldToDoName }) {
-            todos[index] = ToDo(name: newToDoName, isNew: false, isDone: false)
-        } else {
-            todos.append(ToDo(name: newToDoName, isNew: true, isDone: false))
-        }
-        newToDoName = ""
-        isPresented = false
-    }
-    
     var isEditingToDo: Bool {
         todos.contains(where: { $0.name == oldToDoName })
     }
     
-    func onCancelButtonTapped() {
+    func onSaveButtonTapped() {
+        if let index = todos.firstIndex(where: { $0.name == oldToDoName }) {
+            // update task
+            todos[index] = ToDo(name: newToDoName, isNew: false, isDone: false)
+        } else {
+            // add task
+            todos.append(ToDo(name: newToDoName, isNew: true, isDone: false))
+        }
+        closeModal()
+    }
+    
+    func closeModal() {
+        newToDoName = ""
         isPresented = false
     }
 }
