@@ -44,26 +44,13 @@ struct AddTaskView: View {
                 ActionButtonsView(
                     saveAction: { onSaveButtonTapped() },
                     deleteAction: { onDeleteButtonTapped() },
-                    cancelAction: { onCancelButtonTapped() },
+                    cancelAction: { closeModal() },
                     isEditing: isEditingTask
                 )
                 .padding(.horizontal)
             }
             .padding()
         }
-    }
-    
-    func onSaveButtonTapped() {
-        if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
-            // update task
-            tasks[index] = Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays)
-            clearFields()
-        } else {
-            // add task
-            tasks.append(Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays))
-            clearFields()
-        }
-        isPresented = false
     }
     
     var isEditingTask: Bool {
@@ -73,22 +60,29 @@ struct AddTaskView: View {
         return false
     }
     
+    func onSaveButtonTapped() {
+        if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
+            // update task
+            tasks[index] = Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays)
+        } else {
+            // add task
+            tasks.append(Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays))
+        }
+        closeModal()
+    }
+    
     func onDeleteButtonTapped() {
         if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
             tasks.remove(at: index)
-            clearFields()
-            isPresented = false
         }
+        closeModal()
     }
     
-    func onCancelButtonTapped() {
-        clearFields()
-        isPresented = false
-    }
-    
-    func clearFields() {
+    func closeModal() { // equivalent to onCancelButtonTapped
+        // clear fields and close popup
         newTaskName = ""
         selectedDays = []
+        isPresented = false
     }
 }
 
