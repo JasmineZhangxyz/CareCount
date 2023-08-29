@@ -69,25 +69,34 @@ struct EditProfileView: View {
     @Binding var isPresented: Bool
     
     var body: some View {
-        // Design your editing interface here
-        Text("Edit Profile")
-            .font(.title)
-            .padding()
-        
-        Button(action: {
-            // Perform profile update logic here
-            
-            // Dismiss the editing view
-            isPresented = false
-        }) {
-            Text("Save Changes")
-                .font(.headline)
-                .foregroundColor(.white)
+        ZStack {
+            Color("popupPink")
+                .ignoresSafeArea()
+            VStack {
+                Text("Edit Profile")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("darkPink"))
+                    .padding(.horizontal)
+                    .padding(.top)
+                
+                Button(action: {
+                    // Perform profile update logic here
+                    
+                    // Dismiss the editing view
+                    isPresented = false
+                }) {
+                    Text("Save Changes")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color("darkPink"))
+                        .cornerRadius(10)
+                }
                 .padding()
-                .background(Color("darkPink"))
-                .cornerRadius(10)
+                .padding(.bottom, 30)
+            }
         }
-        .padding()
     }
 }
 
