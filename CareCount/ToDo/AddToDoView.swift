@@ -11,15 +11,18 @@ struct AddToDoView: View {
     @Binding var isPresented: Bool
     @Binding var todos: [ToDo]
     @Binding var newToDoName: String
+    @Binding var oldToDoName: String
     
     var body: some View {
         ZStack {
             Color("popupPink")
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading) {
-                Text("Add a To-Do")
-                    .font(.title)
+            VStack {
+                Text(isEditingToDo ? "Edit To-Do" : "Add To-Do")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
                     .padding(.top)
 
@@ -39,15 +42,17 @@ struct AddToDoView: View {
                             .cornerRadius(10)
                     }
                     
-                    Button("Cancel", action: onCancelButtonTapped)
-                        .foregroundColor(Color("darkPink"))
-                        .padding()
-                        .background(Color.clear)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color("darkPink"), lineWidth: 2)
-                        )
+                    Button(action: closeModal) {
+                        Text("Cancel")
+                            .foregroundColor(Color("darkPink"))
+                            .padding()
+                            .background(Color.clear)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("darkPink"), lineWidth: 2)
+                            )
+                    }
                 }
                 .padding(.horizontal)
             }
@@ -55,21 +60,23 @@ struct AddToDoView: View {
         }
     }
     
+    var isEditingToDo: Bool {
+        todos.contains(where: { $0.name == oldToDoName })
+    }
+    
     func onSaveButtonTapped() {
-        if let index = todos.firstIndex(where: { $0.name == newToDoName }) {
+        if let index = todos.firstIndex(where: { $0.name == oldToDoName }) {
+            // update task
             todos[index] = ToDo(name: newToDoName, isNew: false, isDone: false)
         } else {
+            // add task
             todos.append(ToDo(name: newToDoName, isNew: true, isDone: false))
         }
+        closeModal()
+    }
+    
+    func closeModal() {
         newToDoName = ""
-        isPresented = false
-    }
-    
-    var isEditingToDo: Bool {
-        todos.contains(where: { $0.name == newToDoName })
-    }
-    
-    func onCancelButtonTapped() {
         isPresented = false
     }
 }

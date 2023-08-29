@@ -22,6 +22,7 @@ struct ToDoView: View {
     @State private var isAddingToDo = false
     @State private var todos: [ToDo] = []
     @State private var newToDoName = ""
+    @State private var oldToDoName = ""
     
     var body: some View {
         ZStack {
@@ -80,7 +81,7 @@ struct ToDoView: View {
                 }
                 .padding()
                 .fullScreenCover(isPresented: $isAddingToDo) {
-                    AddToDoView(isPresented: $isAddingToDo, todos: $todos, newToDoName: $newToDoName)
+                    AddToDoView(isPresented: $isAddingToDo, todos: $todos, newToDoName: $newToDoName, oldToDoName: $oldToDoName)
                 }
                 
             }
@@ -89,6 +90,7 @@ struct ToDoView: View {
     
     func editToDo(_ index: Int) {
         newToDoName = todos[index].name
+        oldToDoName = todos[index].name
         isAddingToDo = true
     }
     
