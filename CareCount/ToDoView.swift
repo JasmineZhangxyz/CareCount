@@ -15,6 +15,9 @@ struct ToDoView: View {
         UITabBar.appearance().isHidden = true
     }
     
+    // current date
+    let currentDate = Date()
+    
     // variables used in ToDoView
     @State private var isAddingToDo = false
     @State private var todos: [ToDo] = []
@@ -26,12 +29,20 @@ struct ToDoView: View {
                 .ignoresSafeArea()
             
             VStack {
+                // date
+                Text(formatDate(currentDate))
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .padding(.top, 50)
+                
                 // title
                 Text("To-Do List")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(Color("darkPink"))
-                    .padding(.top, 50)
+                    .padding(.top, 5)
+                    
                 
                 // to-do items
                 ScrollView {
@@ -89,6 +100,14 @@ struct ToDoView: View {
         todos.remove(at: index)
         newToDoName = ""
     }
+    
+    // format the date
+        func formatDate(_ date: Date) -> String {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            return formatter.string(from: date)
+        }
     
     // calculate the completion percentage for the progress bar
     var completionPercentage: Double {
