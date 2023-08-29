@@ -15,10 +15,6 @@ struct ToDoView: View {
         UITabBar.appearance().isHidden = true
     }
     
-    // for quote
-    @State private var quoteText: String = ""
-    @State private var author: String = ""
-    
     // variables used in ToDoView
     @State private var isAddingToDo = false
     @State private var todos: [ToDo] = []
@@ -30,12 +26,14 @@ struct ToDoView: View {
                 .ignoresSafeArea()
             
             VStack {
+                // title
                 Text("To-Do List")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 50)
                 
+                // to-do items
                 ScrollView {
                     VStack(spacing: -10) {
                         ForEach(todos.indices, id: \.self) { index in
@@ -50,6 +48,14 @@ struct ToDoView: View {
                     }
                 }
                 
+                // progress Bar
+                if !todos.isEmpty {
+                    ProgressBar(value: completionPercentage)
+                        .frame(height: 25)
+                        .padding(.horizontal, 40)
+                }
+                
+                // add to-do item button
                 Button(action: { isAddingToDo = true }) {
                     Text("+")
                         .font(.title)
@@ -66,19 +72,7 @@ struct ToDoView: View {
                     AddToDoView(isPresented: $isAddingToDo, todos: $todos, newToDoName: $newToDoName)
                 }
                 
-                Text(quoteText)
-                    .font(.body)
-                    .italic()
-                    .foregroundColor(.black)
-                    .padding([.top, .leading, .trailing])
-                
-                Text("- \(author)")
-                    .font(.body)
-                    .italic()
-                    .foregroundColor(.black)
-                    .padding(.bottom)
             }
-            .onAppear(perform: fetchQuoteOfTheDay)
         }
     }
     
@@ -96,40 +90,10 @@ struct ToDoView: View {
         newToDoName = ""
     }
     
-    // function to fetch quote
-    func fetchQuoteOfTheDay() {
-        guard let url = URL(string: "https://zenquotes.io/api/today") else {
-            return
-        }
-        
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]],
-                   let firstQuote = json.first,
-                   let quoteText = firstQuote["q"] as? String,
-                   let author = firstQuote["a"] as? String {
-                    DispatchQueue.main.async {
-                        self.quoteText = quoteText
-                        self.author = author
-                    }
-                }
-            } catch {
-                print("JSON parsing error: \(error)")
-            }
-        }
-        
-        task.resume()
+    // calculate the completion percentage for the progress bar
+    var completionPercentage: Double {
+        let completedCount = todos.filter { $0.isDone }.count
+        return Double(completedCount) / Double(todos.count)
     }
 }
 
