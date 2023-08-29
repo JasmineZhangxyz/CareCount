@@ -29,7 +29,7 @@ struct SignUpView: View {
                 
                 AccountInfoText(email: $email, password: $password)
                 
-                NavigationLink(destination: HomeView()) {
+                NavigationLink(destination: ContentView()) {
                     Text("Create your free account")
                         .frame(maxWidth: .infinity, maxHeight: 2)
                         .font(.system(size:14))
