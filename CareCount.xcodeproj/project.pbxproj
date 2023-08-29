@@ -19,6 +19,8 @@
 		249307402A9D7757005522D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493073F2A9D7757005522D5 /* HomeView.swift */; };
 		249307422A9D7A4C005522D5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307412A9D7A4C005522D5 /* ProfileView.swift */; };
 		249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307432A9DAE72005522D5 /* ToDoButton.swift */; };
+		249307462A9DB344005522D5 /* AddToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307452A9DB344005522D5 /* AddToDoView.swift */; };
+		249307482A9DBA27005522D5 /* QuoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307472A9DBA27005522D5 /* QuoteModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		2493073F2A9D7757005522D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		249307412A9D7A4C005522D5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		249307432A9DAE72005522D5 /* ToDoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoButton.swift; sourceTree = "<group>"; };
+		249307452A9DB344005522D5 /* AddToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDoView.swift; sourceTree = "<group>"; };
+		249307472A9DBA27005522D5 /* QuoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +75,9 @@
 				249307232A9D1725005522D5 /* LandingView.swift */,
 				249307372A9D6008005522D5 /* ToDoView.swift */,
 				249307432A9DAE72005522D5 /* ToDoButton.swift */,
+				249307452A9DB344005522D5 /* AddToDoView.swift */,
 				2493073F2A9D7757005522D5 /* HomeView.swift */,
+				249307472A9DBA27005522D5 /* QuoteModel.swift */,
 				249307412A9D7A4C005522D5 /* ProfileView.swift */,
 				2493072F2A9D18CC005522D5 /* RoutineView.swift */,
 				2493073D2A9D68E6005522D5 /* ContentView.swift */,
@@ -166,6 +172,8 @@
 				2493073E2A9D68E6005522D5 /* ContentView.swift in Sources */,
 				249307302A9D18CC005522D5 /* RoutineView.swift in Sources */,
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
+				249307462A9DB344005522D5 /* AddToDoView.swift in Sources */,
+				249307482A9DBA27005522D5 /* QuoteModel.swift in Sources */,
 				249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */,
 				249307402A9D7757005522D5 /* HomeView.swift in Sources */,
 				249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */,

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var tabSelected: Tab = .house
-    
     init() {
         UITabBar.appearance().isHidden = true
     }

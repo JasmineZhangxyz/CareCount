@@ -15,6 +15,10 @@ struct ToDoView: View {
         UITabBar.appearance().isHidden = true
     }
     
+    // for quote
+    @State private var quoteText: String = ""
+    @State private var author: String = ""
+    
     // variables used in ToDoView
     @State private var isAddingToDo = false
     @State private var todos: [ToDo] = []
@@ -61,7 +65,20 @@ struct ToDoView: View {
                 .fullScreenCover(isPresented: $isAddingToDo) {
                     AddToDoView(isPresented: $isAddingToDo, todos: $todos, newToDoName: $newToDoName)
                 }
+                
+                Text(quoteText)
+                    .font(.body)
+                    .italic()
+                    .foregroundColor(.black)
+                    .padding([.top, .leading, .trailing])
+                
+                Text("- \(author)")
+                    .font(.body)
+                    .italic()
+                    .foregroundColor(.black)
+                    .padding(.bottom)
             }
+            .onAppear(perform: fetchQuoteOfTheDay)
         }
     }
     
@@ -78,86 +95,47 @@ struct ToDoView: View {
         todos.remove(at: index)
         newToDoName = ""
     }
-}
-
-struct AddToDoView: View {
-    @Binding var isPresented: Bool
-    @Binding var todos: [ToDo]
-    @Binding var newToDoName: String
     
-    var body: some View {
-        ZStack {
-            Color("popupPink")
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading) {
-                Text("Add a To-Do")
-                    .font(.title)
-                    .padding(.horizontal)
-                    .padding(.top)
-
-                TextField("To-Do", text: $newToDoName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    .padding(.bottom, 15)
-                
-                HStack {
-                    Spacer()
-                    
-                    Button(action: onSaveButtonTapped) {
-                        Text(isEditingToDo ? "Save" : "Add")
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color("darkPink"))
-                            .cornerRadius(10)
-                    }
-                    
-                    Button("Cancel", action: onCancelButtonTapped)
-                        .foregroundColor(Color("darkPink"))
-                        .padding()
-                        .background(Color.clear)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color("darkPink"), lineWidth: 2)
-                        )
-                }
-                .padding(.horizontal)
+    // function to fetch quote
+    func fetchQuoteOfTheDay() {
+        guard let url = URL(string: "https://zenquotes.io/api/today") else {
+            return
+        }
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                return
             }
-            .padding()
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]],
+                   let firstQuote = json.first,
+                   let quoteText = firstQuote["q"] as? String,
+                   let author = firstQuote["a"] as? String {
+                    DispatchQueue.main.async {
+                        self.quoteText = quoteText
+                        self.author = author
+                    }
+                }
+            } catch {
+                print("JSON parsing error: \(error)")
+            }
         }
-    }
-    
-    func onSaveButtonTapped() {
-        if let index = todos.firstIndex(where: { $0.name == newToDoName }) {
-            updateToDo(at: index)
-        } else {
-            addToDo()
-        }
-        isPresented = false
-    }
-    
-    var isEditingToDo: Bool {
-        todos.contains(where: { $0.name == newToDoName })
-    }
-    
-    func onCancelButtonTapped() {
-        isPresented = false
-    }
-    
-    func addToDo() {
-        todos.append(ToDo(name: newToDoName, isDone: false))
-        newToDoName = ""
-    }
-    
-    func updateToDo(at index: Int) {
-        todos[index] = ToDo(name: newToDoName, isDone: false)
-        newToDoName = ""
+        
+        task.resume()
     }
 }
 
 struct ToDo {
     var name: String
+    var isNew: Bool
     var isDone: Bool
 }
 
