@@ -12,6 +12,7 @@ struct AddTaskView: View {
     @Binding var tasks: [Task]
     @Binding var newTaskName: String
     @Binding var selectedDays: Set<Day>
+    @Binding var oldTaskName: String
     
     @State private var selectedFrequency: Frequency = .daily
 
@@ -54,14 +55,14 @@ struct AddTaskView: View {
     }
     
     var isEditingTask: Bool {
-        if tasks.firstIndex(where: { $0.name == newTaskName }) != nil {
+        if tasks.firstIndex(where: { $0.name == oldTaskName }) != nil {
             return true
         }
         return false
     }
     
     func onSaveButtonTapped() {
-        if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
+        if let index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
             // update task
             tasks[index] = Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays)
         } else {

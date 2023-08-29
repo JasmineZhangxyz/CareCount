@@ -19,6 +19,7 @@ struct RoutineView: View {
     @State private var tasks: [Task] = []
     @State private var newTaskName = ""
     @State private var selectedDays: Set<Day> = []
+    @State private var oldTaskName = ""
     
     var body: some View {
         ZStack {
@@ -60,7 +61,7 @@ struct RoutineView: View {
                 }
                 .padding()
                 .fullScreenCover(isPresented: $isAddingTask) {
-                    AddTaskView(isPresented: $isAddingTask, tasks: $tasks, newTaskName: $newTaskName, selectedDays: $selectedDays)
+                    AddTaskView(isPresented: $isAddingTask, tasks: $tasks, newTaskName: $newTaskName, selectedDays: $selectedDays, oldTaskName: $oldTaskName)
                 }
             }
         }
@@ -69,6 +70,7 @@ struct RoutineView: View {
     func editTask(_ index: Int) {
         let task = tasks[index]
         newTaskName = task.name
+        oldTaskName = task.name
         selectedDays = task.selectedDays
         isAddingTask = true
     }
