@@ -11,6 +11,7 @@ struct AddToDoView: View {
     @Binding var isPresented: Bool
     @Binding var todos: [ToDo]
     @Binding var newToDoName: String
+    @Binding var oldToDoName: String
     
     var body: some View {
         ZStack {
@@ -56,7 +57,7 @@ struct AddToDoView: View {
     }
     
     func onSaveButtonTapped() {
-        if let index = todos.firstIndex(where: { $0.name == newToDoName }) {
+        if let index = todos.firstIndex(where: { $0.name == oldToDoName }) {
             todos[index] = ToDo(name: newToDoName, isNew: false, isDone: false)
         } else {
             todos.append(ToDo(name: newToDoName, isNew: true, isDone: false))
@@ -66,7 +67,7 @@ struct AddToDoView: View {
     }
     
     var isEditingToDo: Bool {
-        todos.contains(where: { $0.name == newToDoName })
+        todos.contains(where: { $0.name == oldToDoName })
     }
     
     func onCancelButtonTapped() {
