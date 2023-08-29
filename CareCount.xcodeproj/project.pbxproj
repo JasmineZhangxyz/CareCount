@@ -18,6 +18,7 @@
 		2493073E2A9D68E6005522D5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493073D2A9D68E6005522D5 /* ContentView.swift */; };
 		249307402A9D7757005522D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493073F2A9D7757005522D5 /* HomeView.swift */; };
 		249307422A9D7A4C005522D5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307412A9D7A4C005522D5 /* ProfileView.swift */; };
+		249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307432A9DAE72005522D5 /* ToDoButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		2493073D2A9D68E6005522D5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2493073F2A9D7757005522D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		249307412A9D7A4C005522D5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		249307432A9DAE72005522D5 /* ToDoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				249307212A9D1725005522D5 /* CareCountApp.swift */,
 				249307232A9D1725005522D5 /* LandingView.swift */,
 				249307372A9D6008005522D5 /* ToDoView.swift */,
+				249307432A9DAE72005522D5 /* ToDoButton.swift */,
 				2493073F2A9D7757005522D5 /* HomeView.swift */,
 				249307412A9D7A4C005522D5 /* ProfileView.swift */,
 				2493072F2A9D18CC005522D5 /* RoutineView.swift */,
@@ -165,6 +168,7 @@
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
 				249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */,
 				249307402A9D7757005522D5 /* HomeView.swift in Sources */,
+				249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */,
 				249307382A9D6008005522D5 /* ToDoView.swift in Sources */,
 				249307222A9D1725005522D5 /* CareCountApp.swift in Sources */,
 			);

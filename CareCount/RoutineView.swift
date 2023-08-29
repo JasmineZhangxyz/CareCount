@@ -30,6 +30,7 @@ struct RoutineView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 125, height: 125)
                     .padding(.top, 75)
+                
                 Text("Routine")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -43,6 +44,7 @@ struct RoutineView: View {
                         }
                     }
                 }
+                
                 Button(action: { isAddingTask = true }) {
                     Text("+")
                         .font(.title)
@@ -90,7 +92,7 @@ struct TaskButton: View {
                     .padding(.trailing)
                     .foregroundColor(.black)
             }
-            .padding()
+            .padding(.vertical)
             .foregroundColor(.black)
             .background(Color.white)
             .cornerRadius(10)
