@@ -14,6 +14,12 @@ struct RoutineView: View {
     @State private var selectedDays: Set<Day> = []
     @State private var editingIndex: Int?
     
+    @State private var tabSelected: Tab = .routine
+    
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
+    
     var body: some View {
         ZStack {
             Color("backgroundPink")
@@ -37,7 +43,6 @@ struct RoutineView: View {
                         }
                     }
                 }
-                
                 Button(action: { isAddingTask = true }) {
                     Text("+")
                         .font(.title)
@@ -53,6 +58,9 @@ struct RoutineView: View {
                 .fullScreenCover(isPresented: $isAddingTask) {
                     AddTaskView(isPresented: $isAddingTask, tasks: $tasks, newTaskName: $newTaskName, selectedDays: $selectedDays)
                 }
+                
+                Spacer()
+                FooterView(selectedTab: $tabSelected)
             }
         }
     }
