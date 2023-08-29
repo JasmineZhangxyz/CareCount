@@ -8,17 +8,18 @@
 import SwiftUI
 
 struct RoutineView: View {
-    @State private var isAddingTask = false
-    @State private var tasks: [Task] = []
-    @State private var newTaskName = ""
-    @State private var selectedDays: Set<Day> = []
-    @State private var editingIndex: Int?
-    
+    // for navbar
     @State private var tabSelected: Tab = .routine
     
     init() {
         UITabBar.appearance().isHidden = true
     }
+    
+    @State private var isAddingTask = false
+    @State private var tasks: [Task] = []
+    @State private var newTaskName = ""
+    @State private var selectedDays: Set<Day> = []
+    @State private var editingIndex: Int?
     
     var body: some View {
         ZStack {
@@ -36,6 +37,7 @@ struct RoutineView: View {
                     .fontWeight(.bold)
                     .foregroundColor(Color("darkPink"))
                 
+                // list of tasks
                 ScrollView {
                     VStack(spacing: -10) {
                         ForEach(tasks.indices, id: \.self) { index in
@@ -45,6 +47,7 @@ struct RoutineView: View {
                     }
                 }
                 
+                // add button
                 Button(action: { isAddingTask = true }) {
                     Text("+")
                         .font(.title)

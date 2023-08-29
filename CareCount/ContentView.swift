@@ -23,7 +23,7 @@ struct ContentView: View {
                 Color("backgroundPink")
                     .ignoresSafeArea()
                 VStack {
-                    // Content based on selected tab
+                    // page
                     switch selectedTab {
                     case .house:
                         HomeView()
@@ -34,13 +34,11 @@ struct ContentView: View {
                     case .profile:
                         ProfileView()
                     }
-                    
+                    // footer
                     Spacer()
-                    
-                    // Footer navigation
                     FooterView(selectedTab: $selectedTab)
                 }
-                .navigationBarHidden(true) // Hide the navigation bar
+                .navigationBarHidden(true) // hide the navigation bar
             }
         }
     }
@@ -55,8 +53,10 @@ struct FooterView: View {
     var body: some View {
         VStack {
             HStack {
+                // formatting for footer icons
                 ForEach(Tab.allCases, id: \.rawValue) { tab in
                     Spacer()
+                    // changes clicked icon to pink + larger
                     Image(systemName: selectedTab == tab ? fillImage : tab.rawValue)
                         .scaleEffect(tab == selectedTab ? 1.25 : 1.0)
                         .foregroundColor(selectedTab == tab ? Color("darkPink") : .black)
@@ -69,23 +69,24 @@ struct FooterView: View {
                     Spacer()
                 }
             }
+            // formatting for footer
             .frame(width: nil, height: 60)
             .background(.thinMaterial)
             .cornerRadius(20)
             .padding()
         }
     }
-    
+    // routing
     func getDestinationView(tab: Tab) -> AnyView {
         switch tab {
         case .house:
-            return AnyView(HomeView()) // Placeholder, not used here
+            return AnyView(HomeView())
         case .routine:
-            return AnyView(RoutineView()) // Placeholder, not used here
+            return AnyView(RoutineView())
         case .todo:
-            return AnyView(ToDoView()) // Placeholder, not used here
+            return AnyView(ToDoView())
         case .profile:
-            return AnyView(ProfileView()) // Placeholder, not used here
+            return AnyView(ProfileView())
         }
     }
 }

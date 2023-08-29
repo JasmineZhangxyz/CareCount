@@ -25,10 +25,17 @@ struct HomeView: View {
             Color("backgroundPink")
                 .ignoresSafeArea()
             VStack {
-                Text("Home")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("darkPink"))
+                HStack {
+                    Image(systemName: "sparkles")
+                    
+                    Text("Paws and Reflect")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    Image(systemName: "sparkles")
+                }
+                .foregroundColor(Color("darkPink"))
+                .padding(.bottom, 25)
                 
                 // cat picture
                 if let imageUrl = imageUrl {
@@ -40,7 +47,7 @@ struct HomeView: View {
                             .cornerRadius(10)
                             .padding()
                     } placeholder: {
-                        Color("backgroundPink") // Placeholder while loading
+                        // leave empty
                     }
                 }
                 
@@ -48,17 +55,15 @@ struct HomeView: View {
                 Text(quoteText)
                     .font(.body)
                     .italic()
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("darkGray"))
                     .frame(width: 300)
-                    .padding(.top)
-                    .padding(.bottom, 5)
                 
                 // quote author
-                Text("- \(author)")
+                /*Text("- \(author)")
                     .font(.body)
                     .italic()
                     .foregroundColor(.black)
-                    .padding(.bottom)
+                    .padding(.bottom)*/
             }
             .onAppear(perform: fetchQuoteAndImage)
         }
@@ -105,6 +110,7 @@ struct HomeView: View {
         task.resume()
     }
     
+    // fetch cat picture
     func fetchCatImage() {
         guard let imageUrl = URL(string: "https://api.thecatapi.com/v1/images/search") else {
             return

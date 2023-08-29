@@ -17,15 +17,18 @@ struct LandingView: View {
                     Image("Logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding(.all)
+                        .padding([.leading, .bottom, .trailing])
+                        .padding(.top, -50)
                     HStack(spacing: 15) {
                         NavigationLink(destination: SignInView()) {
                             Text("Sign In")
                                 .frame(maxWidth: .infinity)
+                                .font(.system(size: 18))
                         }.buttonStyle(CustomButtonStyle())
                         NavigationLink(destination: SignUpView()) {
                             Text("Sign Up")
                                 .frame(maxWidth: .infinity)
+                                .font(.system(size: 18))
                         }.buttonStyle(CustomButtonStyle())
                     }.padding(.horizontal, 40)
                 }
