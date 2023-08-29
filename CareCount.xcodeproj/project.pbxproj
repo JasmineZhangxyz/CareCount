@@ -21,6 +21,9 @@
 		249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307432A9DAE72005522D5 /* ToDoButton.swift */; };
 		249307462A9DB344005522D5 /* AddToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307452A9DB344005522D5 /* AddToDoView.swift */; };
 		2493074A2A9DCA56005522D5 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307492A9DCA56005522D5 /* ProgressBar.swift */; };
+		249307502A9E6761005522D5 /* TaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493074F2A9E6761005522D5 /* TaskButton.swift */; };
+		249307522A9E679F005522D5 /* DayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307512A9E679F005522D5 /* DayButton.swift */; };
+		249307542A9E6964005522D5 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307532A9E6964005522D5 /* AddTaskView.swift */; };
 		CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EB2A9E463B00329574 /* SignInView.swift */; };
 		CC3026EE2A9E468300329574 /* AccountInfoText.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026ED2A9E468300329574 /* AccountInfoText.swift */; };
 		CC3026F02A9E46BD00329574 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EF2A9E46BD00329574 /* SignUpView.swift */; };
@@ -42,6 +45,9 @@
 		249307432A9DAE72005522D5 /* ToDoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoButton.swift; sourceTree = "<group>"; };
 		249307452A9DB344005522D5 /* AddToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDoView.swift; sourceTree = "<group>"; };
 		249307492A9DCA56005522D5 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		2493074F2A9E6761005522D5 /* TaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskButton.swift; sourceTree = "<group>"; };
+		249307512A9E679F005522D5 /* DayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayButton.swift; sourceTree = "<group>"; };
+		249307532A9E6964005522D5 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		CC3026EB2A9E463B00329574 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		CC3026ED2A9E468300329574 /* AccountInfoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoText.swift; sourceTree = "<group>"; };
 		CC3026EF2A9E46BD00329574 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -77,6 +83,7 @@
 		249307202A9D1725005522D5 /* CareCount */ = {
 			isa = PBXGroup;
 			children = (
+				2493074E2A9E672D005522D5 /* Routine */,
 				2493074D2A9E6589005522D5 /* ToDo */,
 				249307212A9D1725005522D5 /* CareCountApp.swift */,
 				249307232A9D1725005522D5 /* LandingView.swift */,
@@ -84,7 +91,6 @@
 				249307412A9D7A4C005522D5 /* ProfileView.swift */,
 				CC3026ED2A9E468300329574 /* AccountInfoText.swift */,
 				CC3026EB2A9E463B00329574 /* SignInView.swift */,
-				2493072F2A9D18CC005522D5 /* RoutineView.swift */,
 				CC3026EF2A9E46BD00329574 /* SignUpView.swift */,
 				2493073D2A9D68E6005522D5 /* ContentView.swift */,
 				249307312A9D194F005522D5 /* CustomButtonStyle.swift */,
@@ -112,6 +118,17 @@
 				249307492A9DCA56005522D5 /* ProgressBar.swift */,
 			);
 			path = ToDo;
+			sourceTree = "<group>";
+		};
+		2493074E2A9E672D005522D5 /* Routine */ = {
+			isa = PBXGroup;
+			children = (
+				2493072F2A9D18CC005522D5 /* RoutineView.swift */,
+				2493074F2A9E6761005522D5 /* TaskButton.swift */,
+				249307512A9E679F005522D5 /* DayButton.swift */,
+				249307532A9E6964005522D5 /* AddTaskView.swift */,
+			);
+			path = Routine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +204,7 @@
 				249307242A9D1725005522D5 /* LandingView.swift in Sources */,
 				249307422A9D7A4C005522D5 /* ProfileView.swift in Sources */,
 				2493073E2A9D68E6005522D5 /* ContentView.swift in Sources */,
+				249307542A9E6964005522D5 /* AddTaskView.swift in Sources */,
 				249307302A9D18CC005522D5 /* RoutineView.swift in Sources */,
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
 				249307462A9DB344005522D5 /* AddToDoView.swift in Sources */,
@@ -194,6 +212,8 @@
 				CC3026EE2A9E468300329574 /* AccountInfoText.swift in Sources */,
 				CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */,
 				249307402A9D7757005522D5 /* HomeView.swift in Sources */,
+				249307502A9E6761005522D5 /* TaskButton.swift in Sources */,
+				249307522A9E679F005522D5 /* DayButton.swift in Sources */,
 				249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */,
 				CC3026F02A9E46BD00329574 /* SignUpView.swift in Sources */,
 				2493074A2A9DCA56005522D5 /* ProgressBar.swift in Sources */,
