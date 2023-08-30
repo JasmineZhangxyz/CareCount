@@ -17,16 +17,15 @@ struct TaskButton: View {
         Button(action: action) {
             HStack {
                 Text(task.name)
-                    .fontWeight(.bold)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading)
-                    .foregroundColor(.black)
                 
                 Spacer()
                 
                 Text(task.selectedDaysAbbreviated)
+                    .font(.system(size: 14, design: .rounded))
                     .padding(.trailing)
-                    .foregroundColor(.black)
             }
             .padding(.vertical)
             .foregroundColor(.black)

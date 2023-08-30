@@ -33,8 +33,7 @@ struct RoutineView: View {
                     .padding(.top, 75)
                 
                 Text("Routine")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                 
                 // list of tasks
@@ -50,8 +49,7 @@ struct RoutineView: View {
                 // add button
                 Button(action: { isAddingTask = true }) {
                     Text("+")
-                        .font(.title)
-                        .fontWeight(.regular)
+                        .font(.system(size: 32, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .frame(width: 75)
                         .padding()

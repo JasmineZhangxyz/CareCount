@@ -29,8 +29,7 @@ struct HomeView: View {
                     Image(systemName: "sparkles")
                     
                     Text("Paws and Reflect")
-                        .font(.title)
-                        .fontWeight(.bold)
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
                     
                     Image(systemName: "sparkles")
                 }

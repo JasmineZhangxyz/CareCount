@@ -22,8 +22,7 @@ struct AddTaskView: View {
                 .ignoresSafeArea()
             VStack {
                 Text(isEditingTask ? "Edit task" : "Add a task")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
                     .padding(.top)
@@ -34,7 +33,7 @@ struct AddTaskView: View {
                     .padding(.bottom, 50)
 
                 Text("Frequency")
-                    .font(.headline)
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
 
@@ -99,16 +98,19 @@ struct ActionButtonsView: View {
             
             Button(action: saveAction) {
                 ActionButton(label: isEditing ? "Save" : "Add", textcolor: Color.white, color: Color("darkPink"))
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
             }
             
             if isEditing {
                 Button(action: deleteAction) {
                     ActionButton(label: "Delete", textcolor: Color.white, color: Color.gray)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
                 }
             }
             
             Button(action: cancelAction) {
                 ActionButton(label: "Cancel", textcolor: Color("darkPink"), color: Color.clear)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("darkPink"), lineWidth: 2)

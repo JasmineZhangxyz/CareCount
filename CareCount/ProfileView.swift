@@ -27,15 +27,12 @@ struct ProfileView: View {
                     .padding(.top, 100)
                                 
                 Text("Pixel")
-                    .font(.system(size: 50))
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 15)
                                 
                 Text("pixel.the.cat@example.com")
-                    .font(.system(size: 20))
-                    .font(.subheadline)
+                    .font(.system(size: 24, design: .rounded))
                     .foregroundColor(.black)
                     .padding(.top, 5)
                             
@@ -48,12 +45,12 @@ struct ProfileView: View {
                         Image(systemName: "pencil")
                         Text("Edit Profile")
                     }
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 150)
-                        .padding()
-                        .background(Color("darkPink"))
-                        .cornerRadius(10)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .foregroundColor(.white)
+                    .frame(width: 150)
+                    .padding()
+                    .background(Color("darkPink"))
+                    .cornerRadius(10)
                 }
             }
             .padding()

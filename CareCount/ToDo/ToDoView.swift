@@ -32,17 +32,15 @@ struct ToDoView: View {
             VStack {
                 // date
                 Text(formatDate(currentDate))
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
-                    .padding(.top, 50)
+                    .padding(.top, 75)
                 
                 // title
                 Text("To-Do List")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
-                    .padding(.top, 5)
+                    .padding(.top, 3)
                     
                 
                 // to-do items
@@ -70,8 +68,7 @@ struct ToDoView: View {
                 // add to-do item button
                 Button(action: { isAddingToDo = true }) {
                     Text("+")
-                        .font(.title)
-                        .fontWeight(.regular)
+                        .font(.system(size: 32, design: .rounded))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .frame(width: 75)
                         .padding()

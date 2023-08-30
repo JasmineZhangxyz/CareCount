@@ -83,7 +83,7 @@ struct DayButton: View {
                 .overlay(
                     Text(day.abbreviatedValue)
                         .foregroundColor(isSelected ? .white : Color("darkPink"))
-                        .font(.body)
+                        .font(.system(size: 16, design: .rounded))
                 )
                 .padding(5)
         }

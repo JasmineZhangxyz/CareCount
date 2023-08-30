@@ -20,8 +20,7 @@ struct AddToDoView: View {
             
             VStack {
                 Text(isEditingToDo ? "Edit To-Do" : "Add To-Do")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
                     .padding(.top)
@@ -54,6 +53,7 @@ struct AddToDoView: View {
                             )
                     }
                 }
+                .font(.system(size: 18, weight: .bold, design: .rounded))
                 .padding(.horizontal)
             }
             .padding()
