@@ -15,7 +15,7 @@ struct AccountInfoText: View {
         VStack(alignment: .leading) {
             TextField("Email", text: $email)
             
-            SecureField("Password", text:$password)
+            SecureField("Password", text: $password)
         }
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .padding(.horizontal, 40)

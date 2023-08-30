@@ -65,7 +65,7 @@ struct ProfileView: View {
             .padding()
             .fullScreenCover(isPresented: $isEditingProfile) {
                 // HARDCODED
-                EditProfileView(isPresented: $isEditingProfile, profile: dataManager.profiles.first(where: { $0.id == 1 })!)
+                EditProfileView(isPresented: $isEditingProfile, profile: dataManager.profiles.first(where: { $0.id == 1 })!, dataManager: dataManager)
             }
         }
     }
@@ -73,14 +73,17 @@ struct ProfileView: View {
 
 struct EditProfileView: View {
     @Binding var isPresented: Bool
-    @State private var editedProfile: UserProfile   // holds profile being edited
+    @State private var editedProfile: UserProfile
     @State private var isEditable = false
     @FocusState private var usernameFieldIsFocused: Bool
     @State private var editedUsername = ""
+    
+    let dataManager: DataManager
 
     // initialize with the edited profile
-    init(isPresented: Binding<Bool>, profile: UserProfile) {
+    init(isPresented: Binding<Bool>, profile: UserProfile, dataManager: DataManager) {
         _isPresented = isPresented
+        self.dataManager = dataManager
         _editedProfile = State(initialValue: profile)
         _editedUsername = State(initialValue: profile.username)
     }
@@ -154,9 +157,7 @@ struct EditProfileView: View {
                     Spacer()
                     
                     Button(action: {
-                        // Perform profile update logic here
-                        
-                        // Dismiss the editing view
+                        dataManager.updateProfileUsername(id: 1, newUsername: editedUsername);
                         isPresented = false
                     }) {
                         Text("Save Changes")
@@ -166,8 +167,8 @@ struct EditProfileView: View {
                             .background(Color("darkPink"))
                             .cornerRadius(10)
                     }
-                    .disabled(editedUsername == editedProfile.username)
-                    .opacity((editedUsername == editedProfile.username) ? 0.7 : 1.0)
+                    .disabled(editedUsername.isEmpty)
+                    .opacity((editedUsername.isEmpty) ? 0.7 : 1.0)
                     
                     Button(action: {
                         isPresented = false

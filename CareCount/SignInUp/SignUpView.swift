@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
-import FirebaseAuth
+import Firebase
 
 struct SignUpView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var username: String = ""
     @State private var signUpSuccessful: Bool = false
     @State private var errorMessage: String = ""
     
@@ -37,7 +38,18 @@ struct SignUpView: View {
                     .padding(.bottom, 30)
                     .foregroundColor(Color("darkGray"))
                 
-                AccountInfoText(email: $email, password: $password)
+                VStack(alignment: .leading) {
+                    TextField("Email", text: $email)
+                    
+                    SecureField("Password", text: $password)
+                    
+                    TextField("Username", text: $username)
+                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal, 40)
+                .cornerRadius(8)
+                .font(.system(size: 14, design: .rounded))
+                .autocapitalization(.none)
                 
                 Button(action: {
                     signUp()
@@ -62,14 +74,39 @@ struct SignUpView: View {
     }
     
     func signUp() {
-        Auth.auth().createUser(withEmail: email, password: password) { _, error in
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 errorMessage = error.localizedDescription
             } else {
-                signUpSuccessful = true
+                // User creation successful, now generate a unique user ID
+                let userId = generateUniqueUserID()
+                
+                let db = Firestore.firestore()
+                let profileData = ["id": userId, "email": email, "username": username] as [String : Any]
+                
+                db.collection("UserProfiles").document(String(userId)).setData(profileData) { error in
+                    if let error = error {
+                        print("Error saving user profile data: \(error.localizedDescription)")
+                    } else {
+                        print("User profile data saved successfully")
+                        signUpSuccessful = true
+                    }
+                }
             }
         }
     }
+    
+    func generateUniqueUserID() -> Int {
+        // Fetch the last used user ID or start with 1
+        let lastUsedUserID = UserDefaults.standard.integer(forKey: "lastUsedUserID")
+        let newUserID = lastUsedUserID + 1
+        
+        // Update the last used user ID
+        UserDefaults.standard.set(newUserID, forKey: "lastUsedUserID")
+        
+        return newUserID
+    }
+
 }
 
 struct SignUpView_Previews: PreviewProvider {

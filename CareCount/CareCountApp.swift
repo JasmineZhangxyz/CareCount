@@ -20,7 +20,7 @@ struct CareCountApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    // @StateObject var dataManager = DataManager()
+    @StateObject var dataManager = DataManager()
     
     var body: some Scene {
         WindowGroup {

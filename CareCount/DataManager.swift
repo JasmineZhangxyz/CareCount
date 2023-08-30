@@ -17,7 +17,7 @@ class DataManager: ObservableObject {
     func fetchProfiles() {
         profiles.removeAll()
         let db = Firestore.firestore()
-        let ref = db.collection("UserProfile")
+        let ref = db.collection("UserProfiles")
         ref.getDocuments { snapshot, error in
             guard error == nil else {
                 print(error?.localizedDescription)
@@ -39,19 +39,18 @@ class DataManager: ObservableObject {
         }
     }
     
-    func updateProfileUsername(id: Int, newUsername: String, completion: @escaping (Error?) -> Void) {
+    func updateProfileUsername(id: Int, newUsername: String) {
         let db = Firestore.firestore()
-        let ref = db.collection("UserProfile").document("\(id)")
+        let ref = db.collection("UserProfiles").document("\(id)")
             
         ref.updateData(["username": newUsername]) { error in
             if let error = error {
-                completion(error)
+                print(error.localizedDescription)
             } else {
                 // update the username in the local profiles array
                 if let index = self.profiles.firstIndex(where: { $0.id == id }) {
                     self.profiles[index].username = newUsername
                 }
-                completion(nil)
             }
         }
     }
