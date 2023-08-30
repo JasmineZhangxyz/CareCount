@@ -20,7 +20,7 @@ struct AccountInfoText: View {
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .padding(.horizontal, 40)
         .cornerRadius(8)
-        .font(.system(size:14))
+        .font(.system(size: 14, design: .rounded))
         .autocapitalization(.none)
     }
 }
