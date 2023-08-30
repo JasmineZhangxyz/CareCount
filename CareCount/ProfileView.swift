@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ProfileView: View {
+    // for database
+    @StateObject private var dataManager = DataManager()
+    
+    // for edit profile button
     @State private var isEditingProfile = false
+    
+    // for navbar
     @State private var tabSelected: Tab = .profile
     
     init() {
@@ -26,15 +32,18 @@ struct ProfileView: View {
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 100)
                                 
-                Text("Pixel")
-                    .font(.system(size: 45, weight: .bold, design: .rounded))
-                    .foregroundColor(Color("darkPink"))
-                    .padding(.top, 15)
-                                
-                Text("pixel.the.cat@example.com")
-                    .font(.system(size: 24, design: .rounded))
-                    .foregroundColor(.black)
-                    .padding(.top, 5)
+                // HARDCODED: displays profile with id = 1
+                if let profile = dataManager.profiles.first(where: { $0.id == 1 }) {
+                    Text(profile.username)
+                        .font(.system(size: 45, weight: .bold, design: .rounded))
+                        .foregroundColor(Color("darkPink"))
+                        .padding(.top, 15)
+                    
+                    Text(profile.email)
+                        .font(.system(size: 24, design: .rounded))
+                        .foregroundColor(Color("darkGray"))
+                        .padding(.top, 3)
+                }
                             
                 Spacer()
                                 
@@ -55,7 +64,8 @@ struct ProfileView: View {
             }
             .padding()
             .fullScreenCover(isPresented: $isEditingProfile) {
-                EditProfileView(isPresented: $isEditingProfile)
+                // HARDCODED
+                EditProfileView(isPresented: $isEditingProfile, profile: dataManager.profiles.first(where: { $0.id == 1 })!)
             }
         }
     }
@@ -63,6 +73,15 @@ struct ProfileView: View {
 
 struct EditProfileView: View {
     @Binding var isPresented: Bool
+    
+    // holds profile being edited
+    @State private var editedProfile: UserProfile
+
+    // initialize with the edited profile
+    init(isPresented: Binding<Bool>, profile: UserProfile) {
+        _isPresented = isPresented
+        _editedProfile = State(initialValue: profile)
+    }
     
     var body: some View {
         ZStack {
@@ -75,6 +94,41 @@ struct EditProfileView: View {
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
                     .padding(.top)
+                
+                // username - can be edited by user
+                HStack {
+                    Text("Username: ")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .padding(.leading, 15)
+                    TextField("", text: $editedProfile.username)
+                        .font(.system(size: 18, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Image(systemName: "pencil.tip.crop.circle")
+                        .font(Font.system(size: 28))
+                        .padding(.trailing)
+                        .foregroundColor(Color("darkPink"))
+                }
+                .padding(.vertical)
+                .frame(width: 350)
+                .foregroundColor(.black)
+                .background(Color.white)
+                .cornerRadius(10)
+                
+                // email - cannot be edited by user
+                HStack {
+                    Text("Email: ")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .padding(.leading, 15)
+                    Text(editedProfile.email)
+                        .padding(.leading, 41) // gets the username + email to vertically align
+                        .font(.system(size: 18, design: .rounded))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.vertical)
+                .frame(width: 350)
+                .foregroundColor(.black)
+                .background(Color.white)
+                .cornerRadius(10)
                 
                 Button(action: {
                     // Perform profile update logic here
@@ -90,7 +144,7 @@ struct EditProfileView: View {
                         .cornerRadius(10)
                 }
                 .padding()
-                .padding(.bottom, 30)
+                .padding(.vertical, 30)
             }
         }
     }

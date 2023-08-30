@@ -39,4 +39,20 @@ class DataManager: ObservableObject {
         }
     }
     
+    func updateProfileUsername(id: Int, newUsername: String, completion: @escaping (Error?) -> Void) {
+        let db = Firestore.firestore()
+        let ref = db.collection("UserProfile").document("\(id)")
+            
+        ref.updateData(["username": newUsername]) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                // update the username in the local profiles array
+                if let index = self.profiles.firstIndex(where: { $0.id == id }) {
+                    self.profiles[index].username = newUsername
+                }
+                completion(nil)
+            }
+        }
+    }
 }
