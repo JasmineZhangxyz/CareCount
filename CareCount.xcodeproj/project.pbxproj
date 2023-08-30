@@ -30,6 +30,7 @@
 		249307892A9EFF9A005522D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 249307882A9EFF9A005522D5 /* GoogleService-Info.plist */; };
 		2493078C2A9F2441005522D5 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078B2A9F2441005522D5 /* UserProfile.swift */; };
 		2493078E2A9F265B005522D5 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078D2A9F265B005522D5 /* DataManager.swift */; };
+		249307902A9FE473005522D5 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078F2A9FE473005522D5 /* AuthenticationManager.swift */; };
 		CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EB2A9E463B00329574 /* SignInView.swift */; };
 		CC3026EE2A9E468300329574 /* AccountInfoText.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026ED2A9E468300329574 /* AccountInfoText.swift */; };
 		CC3026F02A9E46BD00329574 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EF2A9E46BD00329574 /* SignUpView.swift */; };
@@ -57,6 +58,7 @@
 		249307882A9EFF9A005522D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2493078B2A9F2441005522D5 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		2493078D2A9F265B005522D5 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		2493078F2A9FE473005522D5 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		CC3026EB2A9E463B00329574 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		CC3026ED2A9E468300329574 /* AccountInfoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoText.swift; sourceTree = "<group>"; };
 		CC3026EF2A9E46BD00329574 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				2493074E2A9E672D005522D5 /* Routine */,
 				2493074D2A9E6589005522D5 /* ToDo */,
 				249307212A9D1725005522D5 /* CareCountApp.swift */,
+				2493078F2A9FE473005522D5 /* AuthenticationManager.swift */,
 				2493078B2A9F2441005522D5 /* UserProfile.swift */,
 				2493078D2A9F265B005522D5 /* DataManager.swift */,
 				249307232A9D1725005522D5 /* LandingView.swift */,
@@ -250,6 +253,7 @@
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
 				249307462A9DB344005522D5 /* AddToDoView.swift in Sources */,
 				249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */,
+				249307902A9FE473005522D5 /* AuthenticationManager.swift in Sources */,
 				CC3026EE2A9E468300329574 /* AccountInfoText.swift in Sources */,
 				CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */,
 				249307402A9D7757005522D5 /* HomeView.swift in Sources */,

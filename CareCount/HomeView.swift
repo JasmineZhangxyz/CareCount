@@ -25,6 +25,11 @@ struct HomeView: View {
             Color("backgroundPink")
                 .ignoresSafeArea()
             VStack {
+                Text("Hi, username")
+                    .foregroundColor(.white)
+                    .font(.system(size: 24, design: .rounded))
+                    .padding(.bottom, 1)
+                
                 HStack {
                     Image(systemName: "sparkles")
                     

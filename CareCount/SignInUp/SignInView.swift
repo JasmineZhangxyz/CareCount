@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-import FirebaseAuth
+import Firebase
 
 struct SignInView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var signInSuccessful: Bool = false
     @State private var errorMessage: String = ""
+    
+    @EnvironmentObject var authenticationManager: AuthenticationManager
     
     var body: some View {
         if signInSuccessful {
@@ -37,7 +39,16 @@ struct SignInView: View {
                     .padding(.bottom, 30)
                     .foregroundColor(Color("darkGray"))
                 
-                AccountInfoText(email: $email, password: $password)
+                VStack(alignment: .leading) {
+                    TextField("Email", text: $email)
+                    
+                    SecureField("Password", text: $password)
+                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal, 40)
+                .cornerRadius(8)
+                .font(.system(size: 14, design: .rounded))
+                .autocapitalization(.none)
                 
                 Button(action: {
                     signIn()
@@ -66,6 +77,7 @@ struct SignInView: View {
             if let error = error {
                 errorMessage = error.localizedDescription
             } else {
+                authenticationManager.isUserAuthenticated = true
                 signInSuccessful = true
             }
         }

@@ -17,15 +17,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct CareCountApp: App {
-    // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject var dataManager = DataManager()
+    @StateObject var authenticationManager = AuthenticationManager()
     
     var body: some Scene {
         WindowGroup {
-            LandingView()
-                // .environmentObject(dataManager)
+            if authenticationManager.isUserAuthenticated {
+                ContentView()
+                    .environmentObject(dataManager)
+                    .environmentObject(authenticationManager)
+            } else {
+                LandingView()
+                // SignInView()
+                    // .environmentObject(authenticationManager)
+            }
         }
     }
 }

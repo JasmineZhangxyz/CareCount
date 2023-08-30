@@ -15,6 +15,8 @@ struct SignUpView: View {
     @State private var signUpSuccessful: Bool = false
     @State private var errorMessage: String = ""
     
+    @EnvironmentObject var authenticationManager: AuthenticationManager
+    
     var body: some View {
         if signUpSuccessful {
             ContentView()
@@ -61,8 +63,8 @@ struct SignUpView: View {
                 .buttonStyle(CustomButtonStyle())
                 .padding(.horizontal, 40)
                 .padding(.top)
-                .disabled(email.isEmpty || password.isEmpty)
-                .opacity((email.isEmpty || password.isEmpty) ? 0.7 : 1.0)
+                .disabled(email.isEmpty || password.isEmpty || username.isEmpty)
+                .opacity((email.isEmpty || password.isEmpty || username.isEmpty) ? 0.7 : 1.0)
                 
                 // display error message, if any
                 Text(errorMessage)
@@ -89,6 +91,7 @@ struct SignUpView: View {
                         print("Error saving user profile data: \(error.localizedDescription)")
                     } else {
                         print("User profile data saved successfully")
+                        authenticationManager.isUserAuthenticated = true
                         signUpSuccessful = true
                     }
                 }
