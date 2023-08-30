@@ -17,13 +17,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct CareCountApp: App {
-    
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    // @StateObject var dataManager = DataManager()
     
     var body: some Scene {
         WindowGroup {
             LandingView()
+                // .environmentObject(dataManager)
         }
     }
 }

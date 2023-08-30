@@ -73,14 +73,16 @@ struct ProfileView: View {
 
 struct EditProfileView: View {
     @Binding var isPresented: Bool
-    
-    // holds profile being edited
-    @State private var editedProfile: UserProfile
+    @State private var editedProfile: UserProfile   // holds profile being edited
+    @State private var isEditable = false
+    @FocusState private var usernameFieldIsFocused: Bool
+    @State private var editedUsername = ""
 
     // initialize with the edited profile
     init(isPresented: Binding<Bool>, profile: UserProfile) {
         _isPresented = isPresented
         _editedProfile = State(initialValue: profile)
+        _editedUsername = State(initialValue: profile.username)
     }
     
     var body: some View {
@@ -100,13 +102,31 @@ struct EditProfileView: View {
                     Text("Username: ")
                         .font(.system(size: 18, weight: .bold, design: .rounded))
                         .padding(.leading, 15)
-                    TextField("", text: $editedProfile.username)
-                        .font(.system(size: 18, design: .rounded))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Image(systemName: "pencil.tip.crop.circle")
+                    if isEditable {
+                        TextField("", text: $editedUsername)
+                            .font(.system(size: 18, design: .rounded))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .focused($usernameFieldIsFocused)
+                    } else {
+                        Text(editedUsername)
+                            .font(.system(size: 18, design: .rounded))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    Image(systemName: isEditable ? "checkmark" : "pencil.tip.crop.circle")
                         .font(Font.system(size: 28))
                         .padding(.trailing)
                         .foregroundColor(Color("darkPink"))
+                        .onTapGesture {
+                            if isEditable && !editedUsername.isEmpty {
+                                editedProfile.username = editedUsername
+                            }
+                            // uncomment when editedProfile can be updated
+                            /*if !isEditable {
+                                editedUsername = editedProfile.username
+                            }*/
+                            isEditable.toggle()
+                            usernameFieldIsFocused.toggle()
+                        }
                 }
                 .padding(.vertical)
                 .frame(width: 350)
@@ -130,20 +150,42 @@ struct EditProfileView: View {
                 .background(Color.white)
                 .cornerRadius(10)
                 
-                Button(action: {
-                    // Perform profile update logic here
+                HStack {
+                    Spacer()
                     
-                    // Dismiss the editing view
-                    isPresented = false
-                }) {
-                    Text("Save Changes")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color("darkPink"))
-                        .cornerRadius(10)
+                    Button(action: {
+                        // Perform profile update logic here
+                        
+                        // Dismiss the editing view
+                        isPresented = false
+                    }) {
+                        Text("Save Changes")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color("darkPink"))
+                            .cornerRadius(10)
+                    }
+                    .disabled(editedUsername == editedProfile.username)
+                    .opacity((editedUsername == editedProfile.username) ? 0.7 : 1.0)
+                    
+                    Button(action: {
+                        isPresented = false
+                    }) {
+                        Text("Cancel")
+                            .foregroundColor(Color("darkPink"))
+                            .padding()
+                            .background(Color.clear)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("darkPink"), lineWidth: 2)
+                            )
+                    }
                 }
-                .padding()
+                .font(.system(size: 18, weight: .bold, design: .rounded))
+                .frame(width: 350)
+                .padding(.horizontal)
                 .padding(.vertical, 30)
             }
         }
