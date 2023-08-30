@@ -28,6 +28,8 @@
 		249307842A9EFE71005522D5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 249307832A9EFE71005522D5 /* FirebaseFirestore */; };
 		249307872A9EFF2F005522D5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 249307862A9EFF2F005522D5 /* FirebaseAnalytics */; };
 		249307892A9EFF9A005522D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 249307882A9EFF9A005522D5 /* GoogleService-Info.plist */; };
+		2493078C2A9F2441005522D5 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078B2A9F2441005522D5 /* UserProfile.swift */; };
+		2493078E2A9F265B005522D5 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078D2A9F265B005522D5 /* DataManager.swift */; };
 		CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EB2A9E463B00329574 /* SignInView.swift */; };
 		CC3026EE2A9E468300329574 /* AccountInfoText.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026ED2A9E468300329574 /* AccountInfoText.swift */; };
 		CC3026F02A9E46BD00329574 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EF2A9E46BD00329574 /* SignUpView.swift */; };
@@ -53,6 +55,8 @@
 		249307512A9E679F005522D5 /* DayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayButton.swift; sourceTree = "<group>"; };
 		249307532A9E6964005522D5 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		249307882A9EFF9A005522D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2493078B2A9F2441005522D5 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		2493078D2A9F265B005522D5 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CC3026EB2A9E463B00329574 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		CC3026ED2A9E468300329574 /* AccountInfoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoText.swift; sourceTree = "<group>"; };
 		CC3026EF2A9E46BD00329574 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -92,15 +96,15 @@
 		249307202A9D1725005522D5 /* CareCount */ = {
 			isa = PBXGroup;
 			children = (
+				2493078A2A9F23EE005522D5 /* SignInUp */,
 				2493074E2A9E672D005522D5 /* Routine */,
 				2493074D2A9E6589005522D5 /* ToDo */,
 				249307212A9D1725005522D5 /* CareCountApp.swift */,
+				2493078B2A9F2441005522D5 /* UserProfile.swift */,
+				2493078D2A9F265B005522D5 /* DataManager.swift */,
 				249307232A9D1725005522D5 /* LandingView.swift */,
 				2493073F2A9D7757005522D5 /* HomeView.swift */,
 				249307412A9D7A4C005522D5 /* ProfileView.swift */,
-				CC3026ED2A9E468300329574 /* AccountInfoText.swift */,
-				CC3026EB2A9E463B00329574 /* SignInView.swift */,
-				CC3026EF2A9E46BD00329574 /* SignUpView.swift */,
 				2493073D2A9D68E6005522D5 /* ContentView.swift */,
 				249307312A9D194F005522D5 /* CustomButtonStyle.swift */,
 				249307332A9D2038005522D5 /* RoutineListItems.swift */,
@@ -146,6 +150,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2493078A2A9F23EE005522D5 /* SignInUp */ = {
+			isa = PBXGroup;
+			children = (
+				CC3026ED2A9E468300329574 /* AccountInfoText.swift */,
+				CC3026EF2A9E46BD00329574 /* SignUpView.swift */,
+				CC3026EB2A9E463B00329574 /* SignInView.swift */,
+			);
+			path = SignInUp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				249307242A9D1725005522D5 /* LandingView.swift in Sources */,
+				2493078E2A9F265B005522D5 /* DataManager.swift in Sources */,
 				249307422A9D7A4C005522D5 /* ProfileView.swift in Sources */,
 				2493073E2A9D68E6005522D5 /* ContentView.swift in Sources */,
 				249307542A9E6964005522D5 /* AddTaskView.swift in Sources */,
@@ -245,6 +260,7 @@
 				2493074A2A9DCA56005522D5 /* ProgressBar.swift in Sources */,
 				249307382A9D6008005522D5 /* ToDoView.swift in Sources */,
 				249307222A9D1725005522D5 /* CareCountApp.swift in Sources */,
+				2493078C2A9F2441005522D5 /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,42 @@
+//
+//  DataManager.swift
+//  CareCount
+//
+//  Created by Jasmine Zhang on 8/30/23.
+//
+
+import Firebase
+
+class DataManager: ObservableObject {
+    @Published var profiles: [UserProfile] = []
+    
+    init() {
+        fetchProfiles()
+    }
+    
+    func fetchProfiles() {
+        profiles.removeAll()
+        let db = Firestore.firestore()
+        let ref = db.collection("UserProfile")
+        ref.getDocuments { snapshot, error in
+            guard error == nil else {
+                print(error?.localizedDescription)
+                return
+            }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    
+                    let id = data["id"] as? Int ?? 0
+                    let email = data["email"] as? String ?? ""
+                    let username = data["username"] as? String ?? ""
+                    
+                    let profile = UserProfile(id: id, email: email, username: username)
+                    self.profiles.append(profile)
+                }
+            }
+        }
+    }
+    
+}
