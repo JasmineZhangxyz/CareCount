@@ -23,14 +23,14 @@ struct LandingView: View {
                         NavigationLink(destination: SignInView()) {
                             Text("Sign In")
                                 .frame(maxWidth: .infinity)
-                                .font(.system(size: 18))
                         }.buttonStyle(CustomButtonStyle())
                         NavigationLink(destination: SignUpView()) {
                             Text("Sign Up")
                                 .frame(maxWidth: .infinity)
-                                .font(.system(size: 18))
                         }.buttonStyle(CustomButtonStyle())
-                    }.padding(.horizontal, 40)
+                    }
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .padding(.horizontal, 40)
                 }
             }
         }

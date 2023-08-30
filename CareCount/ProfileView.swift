@@ -57,7 +57,6 @@ struct ProfileView: View {
                 }
             }
             .padding()
-            .padding(.bottom, 30)
             .fullScreenCover(isPresented: $isEditingProfile) {
                 EditProfileView(isPresented: $isEditingProfile)
             }
