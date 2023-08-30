@@ -6,12 +6,23 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct SignUpView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var signUpSuccessful: Bool = false
+    @State private var errorMessage: String = ""
     
     var body: some View {
+        if signUpSuccessful {
+            ContentView()
+        } else {
+            signUpContent
+        }
+    }
+    
+    var signUpContent: some View {
         ZStack {
             Color("backgroundPink")
                 .ignoresSafeArea()
@@ -28,7 +39,9 @@ struct SignUpView: View {
                 
                 AccountInfoText(email: $email, password: $password)
                 
-                NavigationLink(destination: ContentView()) {
+                Button(action: {
+                    signUp()
+                }) {
                     Text("Create your free account")
                         .frame(maxWidth: .infinity, maxHeight: 2)
                         .font(.system(size: 18, design: .rounded))
@@ -36,6 +49,24 @@ struct SignUpView: View {
                 .buttonStyle(CustomButtonStyle())
                 .padding(.horizontal, 40)
                 .padding(.top)
+                .disabled(email.isEmpty || password.isEmpty)
+                .opacity((email.isEmpty || password.isEmpty) ? 0.7 : 1.0)
+                
+                // display error message, if any
+                Text(errorMessage)
+                    .foregroundColor(.red)
+                    .font(.system(size: 14, design: .rounded))
+                    .padding()
+            }
+        }
+    }
+    
+    func signUp() {
+        Auth.auth().createUser(withEmail: email, password: password) { _, error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+            } else {
+                signUpSuccessful = true
             }
         }
     }
