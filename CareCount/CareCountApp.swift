@@ -19,19 +19,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct CareCountApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    @StateObject var dataManager = DataManager()
     @StateObject var authenticationManager = AuthenticationManager()
+    @StateObject var dataManager = DataManager()
     
     var body: some Scene {
         WindowGroup {
             if authenticationManager.isUserAuthenticated {
                 ContentView()
-                    .environmentObject(dataManager)
                     .environmentObject(authenticationManager)
+                    .environmentObject(dataManager)
             } else {
                 LandingView()
-                // SignInView()
-                    // .environmentObject(authenticationManager)
+                    .environmentObject(authenticationManager)
             }
         }
     }

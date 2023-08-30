@@ -73,11 +73,12 @@ struct SignInView: View {
     }
     
     func signIn() {
-        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 errorMessage = error.localizedDescription
             } else {
                 authenticationManager.isUserAuthenticated = true
+                authenticationManager.userId = authResult?.user.uid
                 signInSuccessful = true
             }
         }

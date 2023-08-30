@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ProfileView: View {
     // for database
-    @StateObject private var dataManager = DataManager()
+    @EnvironmentObject var authenticationManager: AuthenticationManager
+    @EnvironmentObject var dataManager: DataManager
     
     // for edit profile button
     @State private var isEditingProfile = false
@@ -31,9 +33,9 @@ struct ProfileView: View {
                     .frame(width: 100, height: 100)
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 100)
-                                
-                // HARDCODED: displays profile with id = 1
-                if let profile = dataManager.profiles.first(where: { $0.id == 1 }) {
+                
+                if let userId = authenticationManager.userId,
+                   let profile = dataManager.profiles.first(where: { $0.id == userId }) {
                     Text(profile.username)
                         .font(.system(size: 45, weight: .bold, design: .rounded))
                         .foregroundColor(Color("darkPink"))
@@ -61,11 +63,23 @@ struct ProfileView: View {
                     .background(Color("darkPink"))
                     .cornerRadius(10)
                 }
+                
+                Button(action: {
+                    authenticationManager.signOut() // Call the signOut() method
+                }) {
+                    Text("Log Out")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .frame(width: 150)
+                        .padding()
+                        .background(Color("darkPink"))
+                        .cornerRadius(10)
+                }
             }
             .padding()
             .fullScreenCover(isPresented: $isEditingProfile) {
                 // HARDCODED
-                EditProfileView(isPresented: $isEditingProfile, profile: dataManager.profiles.first(where: { $0.id == 1 })!, dataManager: dataManager)
+                // EditProfileView(isPresented: $isEditingProfile, profile: dataManager.profiles.first(where: { $0.id == 1 })!, dataManager: dataManager)
             }
         }
     }
@@ -157,7 +171,7 @@ struct EditProfileView: View {
                     Spacer()
                     
                     Button(action: {
-                        dataManager.updateProfileUsername(id: 1, newUsername: editedUsername);
+                        // dataManager.updateProfileUsername(id: 1, newUsername: editedUsername);
                         isPresented = false
                     }) {
                         Text("Save Changes")
@@ -196,5 +210,7 @@ struct EditProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
+            .environmentObject(AuthenticationManager())
+            .environmentObject(DataManager())
     }
 }

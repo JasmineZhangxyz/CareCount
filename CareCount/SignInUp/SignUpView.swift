@@ -79,37 +79,24 @@ struct SignUpView: View {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 errorMessage = error.localizedDescription
-            } else {
-                // User creation successful, now generate a unique user ID
-                let userId = generateUniqueUserID()
-                
+            } else if let authResult = authResult {
                 let db = Firestore.firestore()
-                let profileData = ["id": userId, "email": email, "username": username] as [String : Any]
+                let profileData = ["email": email, "username": username] as [String: Any]
                 
-                db.collection("UserProfiles").document(String(userId)).setData(profileData) { error in
+                // Let Firestore generate a unique ID for the document
+                db.collection("UserProfiles").addDocument(data: profileData) { error in
                     if let error = error {
                         print("Error saving user profile data: \(error.localizedDescription)")
                     } else {
                         print("User profile data saved successfully")
                         authenticationManager.isUserAuthenticated = true
+                        authenticationManager.userId = authResult.user.uid
                         signUpSuccessful = true
                     }
                 }
             }
         }
     }
-    
-    func generateUniqueUserID() -> Int {
-        // Fetch the last used user ID or start with 1
-        let lastUsedUserID = UserDefaults.standard.integer(forKey: "lastUsedUserID")
-        let newUserID = lastUsedUserID + 1
-        
-        // Update the last used user ID
-        UserDefaults.standard.set(newUserID, forKey: "lastUsedUserID")
-        
-        return newUserID
-    }
-
 }
 
 struct SignUpView_Previews: PreviewProvider {

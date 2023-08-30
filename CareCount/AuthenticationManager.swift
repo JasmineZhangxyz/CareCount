@@ -10,6 +10,7 @@ import Combine
 
 class AuthenticationManager: ObservableObject {
     @Published var isUserAuthenticated: Bool = false
+    var userId: String?
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -17,6 +18,7 @@ class AuthenticationManager: ObservableObject {
         // Listen for changes in the user's authentication state
         Auth.auth().addStateDidChangeListener { auth, user in
             self.isUserAuthenticated = user != nil
+            self.userId = user?.uid
         }
     }
     

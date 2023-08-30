@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LandingView: View {
+    
+    @EnvironmentObject var authenticationManager: AuthenticationManager
+    
     var body: some View {
         NavigationView {
             ZStack {

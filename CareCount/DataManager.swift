@@ -28,7 +28,7 @@ class DataManager: ObservableObject {
                 for document in snapshot.documents {
                     let data = document.data()
                     
-                    let id = data["id"] as? Int ?? 0
+                    let id = data["id"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
                     let username = data["username"] as? String ?? ""
                     
@@ -39,7 +39,7 @@ class DataManager: ObservableObject {
         }
     }
     
-    func updateProfileUsername(id: Int, newUsername: String) {
+    /*func updateProfileUsername(id: Int, newUsername: String) {
         let db = Firestore.firestore()
         let ref = db.collection("UserProfiles").document("\(id)")
             
@@ -53,5 +53,5 @@ class DataManager: ObservableObject {
                 }
             }
         }
-    }
+    }*/
 }
