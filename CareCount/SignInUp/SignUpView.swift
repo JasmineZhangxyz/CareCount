@@ -74,33 +74,37 @@ struct SignUpView: View {
             }
         }
     }
-    
+        
     func signUp() {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 errorMessage = error.localizedDescription
             } else if let authResult = authResult {
                 let db = Firestore.firestore()
-                let profileData = ["email": email, "username": username] as [String: Any]
+                let uid = authResult.user.uid  // Get the unique UID
+                let profileData = ["id": uid, "email": email, "username": username] as [String: Any]
                 
-                // Let Firestore generate a unique ID for the document
-                db.collection("UserProfiles").addDocument(data: profileData) { error in
+                // Use the UID as the document ID
+                // db.collection("UserProfiles").addDocument(data: profileData)
+                db.collection("UserProfiles").document(uid).setData(profileData) { error in
                     if let error = error {
                         print("Error saving user profile data: \(error.localizedDescription)")
                     } else {
                         print("User profile data saved successfully")
                         authenticationManager.isUserAuthenticated = true
-                        authenticationManager.userId = authResult.user.uid
+                        authenticationManager.userId = uid
                         signUpSuccessful = true
                     }
                 }
             }
         }
     }
+
 }
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
+            .environmentObject(AuthenticationManager())
     }
 }

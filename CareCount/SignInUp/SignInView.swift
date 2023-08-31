@@ -76,9 +76,10 @@ struct SignInView: View {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 errorMessage = error.localizedDescription
-            } else {
+            } else if let authResult = authResult {
+                print("User logged in successfully")
                 authenticationManager.isUserAuthenticated = true
-                authenticationManager.userId = authResult?.user.uid
+                authenticationManager.userId = authResult.user.uid
                 signInSuccessful = true
             }
         }
@@ -89,5 +90,6 @@ struct SignInView: View {
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView()
+            .environmentObject(AuthenticationManager())
     }
 }
