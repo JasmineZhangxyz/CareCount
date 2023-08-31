@@ -39,19 +39,19 @@ class DataManager: ObservableObject {
         }
     }
     
-    /*func updateProfileUsername(id: Int, newUsername: String) {
-        let db = Firestore.firestore()
-        let ref = db.collection("UserProfiles").document("\(id)")
+    func updateProfileUsername(id: String, newUsername: String) {
+            let db = Firestore.firestore()
+            let ref = db.collection("UserProfiles").document(id)
             
-        ref.updateData(["username": newUsername]) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                // update the username in the local profiles array
-                if let index = self.profiles.firstIndex(where: { $0.id == id }) {
-                    self.profiles[index].username = newUsername
+            ref.updateData(["username": newUsername]) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    // Update the username in the local profiles array
+                    if let index = self.profiles.firstIndex(where: { $0.id == id }) {
+                        self.profiles[index].username = newUsername
+                    }
                 }
             }
         }
-    }*/
 }

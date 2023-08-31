@@ -34,21 +34,24 @@ struct ProfileView: View {
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 100)
                 
-                if let userId = authenticationManager.userId,
-                   let profile = dataManager.profiles.first(where: { $0.id == userId }) {
-                    Text(profile.username)
-                        .font(.system(size: 45, weight: .bold, design: .rounded))
-                        .foregroundColor(Color("darkPink"))
-                        .padding(.top, 15)
-                    
-                    Text(profile.email)
-                        .font(.system(size: 24, design: .rounded))
-                        .foregroundColor(Color("darkGray"))
-                        .padding(.top, 3)
+                if let userId = authenticationManager.userId {
+                    // Text("UserID: \(userId)") // Debug line
+                                    
+                    if let profile = dataManager.profiles.first(where: { $0.id == userId }) {
+                        Text(profile.username)
+                            .font(.system(size: 45, weight: .bold, design: .rounded))
+                            .foregroundColor(Color("darkPink"))
+                            .padding(.top, 15)
+                                        
+                        Text(profile.email)
+                            .font(.system(size: 24, design: .rounded))
+                            .foregroundColor(Color("darkGray"))
+                            .padding(.top, 3)
+                    }
                 }
                             
                 Spacer()
-                                
+                
                 Button(action: {
                     isEditingProfile = true
                 }) {
@@ -58,7 +61,7 @@ struct ProfileView: View {
                     }
                     .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
-                    .frame(width: 150)
+                    .frame(width: 300)
                     .padding()
                     .background(Color("darkPink"))
                     .cornerRadius(10)
@@ -70,16 +73,21 @@ struct ProfileView: View {
                     Text("Log Out")
                         .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
-                        .frame(width: 150)
+                        .frame(width: 300)
                         .padding()
-                        .background(Color("darkPink"))
+                        .background(Color("darkGray"))
                         .cornerRadius(10)
                 }
             }
             .padding()
             .fullScreenCover(isPresented: $isEditingProfile) {
-                // HARDCODED
-                // EditProfileView(isPresented: $isEditingProfile, profile: dataManager.profiles.first(where: { $0.id == 1 })!, dataManager: dataManager)
+                if let user = dataManager.profiles.first(where: { $0.id == authenticationManager.userId }) {
+                    EditProfileView(
+                        isPresented: $isEditingProfile,
+                        profile: user,
+                        dataManager: dataManager
+                    )
+                }
             }
         }
     }
@@ -171,7 +179,8 @@ struct EditProfileView: View {
                     Spacer()
                     
                     Button(action: {
-                        // dataManager.updateProfileUsername(id: 1, newUsername: editedUsername);
+                        // Update the username in DataManager and Firestore
+                        dataManager.updateProfileUsername(id: editedProfile.id, newUsername: editedUsername)
                         isPresented = false
                     }) {
                         Text("Save Changes")
