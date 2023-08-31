@@ -9,9 +9,11 @@ import Firebase
 
 class DataManager: ObservableObject {
     @Published var profiles: [UserProfile] = []
+    @Published var routines: [Routine] = []
     
     init() {
         fetchProfiles()
+        fetchRoutines()
     }
     
     func fetchProfiles() {
@@ -38,6 +40,40 @@ class DataManager: ObservableObject {
             }
         }
     }
+    
+    func fetchRoutines() {
+        routines.removeAll()
+        let db = Firestore.firestore()
+        let ref = db.collection("Routines")
+        
+        ref.getDocuments { snapshot, error in
+            guard error == nil else {
+                print(error?.localizedDescription)
+                return
+            }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    
+                    let id = data["id"] as? String ?? ""
+                    let name = data["name"] as? String ?? ""
+                    let frequency = data["frequency"] as? String ?? ""
+                    let mon = data["mon"] as? Bool ?? false
+                    let tue = data["tue"] as? Bool ?? false
+                    let wed = data["wed"] as? Bool ?? false
+                    let thu = data["thu"] as? Bool ?? false
+                    let fri = data["fri"] as? Bool ?? false
+                    let sat = data["sat"] as? Bool ?? false
+                    let sun = data["sun"] as? Bool ?? false
+                    
+                    let routine = Routine(id: id, name: name, frequency: frequency, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
+                    self.routines.append(routine)
+                }
+            }
+        }
+    }
+
     
     func updateProfileUsername(id: String, newUsername: String) {
             let db = Firestore.firestore()

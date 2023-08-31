@@ -53,7 +53,7 @@ struct ToDoView: View {
                                 completeAction: { completeToDo(index) },
                                 deleteAction: { deleteToDo(at: index) }
                             )
-                            .buttonStyle(RoutineListItems())
+                            .buttonStyle(ListItems())
                         }
                     }
                 }

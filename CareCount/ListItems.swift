@@ -1,5 +1,5 @@
 //
-//  RoutineListItems.swift
+//  ListItems.swift
 //  CareCount
 //
 //  Created by Jasmine Zhang on 8/28/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RoutineListItems: ButtonStyle {
+struct ListItems: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 30)

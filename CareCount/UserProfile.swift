@@ -12,3 +12,16 @@ struct UserProfile: Identifiable {
     var email: String
     var username: String
 }
+
+struct Routine: Identifiable {
+    var id: String      // profile routine belongs to
+    var name: String
+    var frequency: String
+    var mon: Bool
+    var tue: Bool
+    var wed: Bool
+    var thu: Bool
+    var fri: Bool
+    var sat: Bool
+    var sun: Bool
+}

@@ -13,7 +13,7 @@
 		249307292A9D1726005522D5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 249307282A9D1726005522D5 /* Preview Assets.xcassets */; };
 		249307302A9D18CC005522D5 /* RoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493072F2A9D18CC005522D5 /* RoutineView.swift */; };
 		249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307312A9D194F005522D5 /* CustomButtonStyle.swift */; };
-		249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307332A9D2038005522D5 /* RoutineListItems.swift */; };
+		249307342A9D2038005522D5 /* ListItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307332A9D2038005522D5 /* ListItems.swift */; };
 		249307382A9D6008005522D5 /* ToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249307372A9D6008005522D5 /* ToDoView.swift */; };
 		2493073E2A9D68E6005522D5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493073D2A9D68E6005522D5 /* ContentView.swift */; };
 		249307402A9D7757005522D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493073F2A9D7757005522D5 /* HomeView.swift */; };
@@ -44,7 +44,7 @@
 		249307282A9D1726005522D5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2493072F2A9D18CC005522D5 /* RoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineView.swift; sourceTree = "<group>"; };
 		249307312A9D194F005522D5 /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
-		249307332A9D2038005522D5 /* RoutineListItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListItems.swift; sourceTree = "<group>"; };
+		249307332A9D2038005522D5 /* ListItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItems.swift; sourceTree = "<group>"; };
 		249307372A9D6008005522D5 /* ToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoView.swift; sourceTree = "<group>"; };
 		2493073D2A9D68E6005522D5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2493073F2A9D7757005522D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -110,7 +110,7 @@
 				249307412A9D7A4C005522D5 /* ProfileView.swift */,
 				2493073D2A9D68E6005522D5 /* ContentView.swift */,
 				249307312A9D194F005522D5 /* CustomButtonStyle.swift */,
-				249307332A9D2038005522D5 /* RoutineListItems.swift */,
+				249307332A9D2038005522D5 /* ListItems.swift */,
 				249307882A9EFF9A005522D5 /* GoogleService-Info.plist */,
 				249307252A9D1726005522D5 /* Assets.xcassets */,
 				249307272A9D1726005522D5 /* Preview Content */,
@@ -252,7 +252,7 @@
 				249307302A9D18CC005522D5 /* RoutineView.swift in Sources */,
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
 				249307462A9DB344005522D5 /* AddToDoView.swift in Sources */,
-				249307342A9D2038005522D5 /* RoutineListItems.swift in Sources */,
+				249307342A9D2038005522D5 /* ListItems.swift in Sources */,
 				249307902A9FE473005522D5 /* AuthenticationManager.swift in Sources */,
 				CC3026EE2A9E468300329574 /* AccountInfoText.swift in Sources */,
 				CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */,
