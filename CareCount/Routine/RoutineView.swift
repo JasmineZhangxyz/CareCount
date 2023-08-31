@@ -25,6 +25,8 @@ struct RoutineView: View {
     @State private var selectedDays: Set<Day> = []
     @State private var oldTaskName = ""
     
+    @State private var filteredRoutines: [Routine] = []
+    
     var body: some View {
         ZStack {
             Color("backgroundPink")
@@ -39,16 +41,6 @@ struct RoutineView: View {
                 Text("Routine")
                     .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
-                
-                // list of tasks
-                /* ScrollView {
-                    VStack(spacing: -10) {
-                        ForEach(tasks.indices, id: \.self) { index in
-                            TaskButton(task: tasks[index], action: { editTask(index) })
-                                .buttonStyle(RoutineListItems())
-                        }
-                    }
-                }*/
                 
                 ScrollView {
                     VStack(spacing: -10) {
@@ -78,6 +70,27 @@ struct RoutineView: View {
                 }
             }
         }
+        .onAppear {
+            guard let userId = authManager.userId else {
+                return
+            }
+            dataManager.fetchRoutines() // Fetch all routines first
+            filteredRoutines = dataManager.routines.filter { $0.id == userId }
+            print("Fetching routines for user: \(authManager.userId ?? "Unknown User")")
+            print("Filtered routines for user \(userId ): \(filteredRoutines.count)")
+        }
+        /*.onChange(of: dataManager.routines) { _ in
+            let userId = authManager.userId
+            filteredRoutines = dataManager.routines.filter { $0.id == userId }
+        }*/
+        .onChange(of: dataManager.routines) { newRoutines in
+            let userId = authManager.userId
+            filteredRoutines = newRoutines.filter { $0.id == userId }
+                    
+            print("Routines fetched: \(newRoutines.count)")
+            print("Filtered routines for user \(userId ?? "Unknown User"): \(filteredRoutines.count)")
+        }
+
     }
     
     func editTask(_ index: Int) {
@@ -86,15 +99,6 @@ struct RoutineView: View {
         oldTaskName = task.name
         selectedDays = task.selectedDays
         isAddingTask = true
-    }
-    
-    var filteredRoutines: [Routine] {
-        guard let userId = authManager.userId else {
-            return [] // Return an empty array if the user ID is not available
-        }
-        
-        let userRoutines = dataManager.routines.filter { $0.id == userId }
-        return userRoutines
     }
 
     func routineToTask(_ routine: Routine) -> Task {
@@ -117,7 +121,19 @@ struct RoutineView: View {
     }
 
     func editRoutine(_ routine: Routine) {
-        // Logic for editing a routine
+        var selectedRoutineDays: Set<Day> = []
+        if routine.mon { selectedRoutineDays.insert(.mon) }
+        if routine.tue { selectedRoutineDays.insert(.tue) }
+        if routine.wed { selectedRoutineDays.insert(.wed) }
+        if routine.thu { selectedRoutineDays.insert(.thu) }
+        if routine.fri { selectedRoutineDays.insert(.fri) }
+        if routine.sat { selectedRoutineDays.insert(.sat) }
+        if routine.sun { selectedRoutineDays.insert(.sun) }
+        
+        newTaskName = routine.name
+        oldTaskName = routine.name
+        selectedDays = selectedRoutineDays
+        isAddingTask = true
     }
 }
 

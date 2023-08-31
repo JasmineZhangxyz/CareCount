@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct AddTaskView: View {
+    // for database
+    @EnvironmentObject var authManager: AuthenticationManager
+    @EnvironmentObject var dataManager: DataManager
+
     @Binding var isPresented: Bool
     @Binding var tasks: [Task]
     @Binding var newTaskName: String
@@ -61,12 +66,37 @@ struct AddTaskView: View {
     }
     
     func onSaveButtonTapped() {
-        if let index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
-            // update task
+        guard let userId = authManager.userId else {
+            print("User ID is not available.")
+            closeModal()
+            return
+        }
+        
+        let newRoutine = Routine(
+            id: userId,
+            name: newTaskName,
+            frequency: selectedFrequency.rawValue,
+            mon: selectedDays.contains(.mon),
+            tue: selectedDays.contains(.tue),
+            wed: selectedDays.contains(.wed),
+            thu: selectedDays.contains(.thu),
+            fri: selectedDays.contains(.fri),
+            sat: selectedDays.contains(.sat),
+            sun: selectedDays.contains(.sun)
+        )
+        
+        if isEditingTask, let index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
+            // update task locally
             tasks[index] = Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays)
+            
+            // update routine in Firebase
+            dataManager.updateRoutine(newRoutine)
         } else {
-            // add task
+            // add task locally
             tasks.append(Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays))
+            
+            // add routine to Firebase
+            dataManager.addRoutine(newRoutine)
         }
         closeModal()
     }
@@ -74,9 +104,25 @@ struct AddTaskView: View {
     func onDeleteButtonTapped() {
         if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
             tasks.remove(at: index)
+            
+            guard let userId = authManager.userId else {
+                print("User ID is not available.")
+                closeModal()
+                return
+            }
+            
+            // Remove the routine from Firebase
+            dataManager.deleteRoutine(forUserID: userId, withRoutineName: newTaskName) { success in
+                if success {
+                    print("Routine deleted from Firebase.")
+                } else {
+                    print("Failed to delete routine from Firebase.")
+                }
+                closeModal()
+            }
         }
-        closeModal()
     }
+
     
     func closeModal() { // equivalent to onCancelButtonTapped
         // clear fields and close popup

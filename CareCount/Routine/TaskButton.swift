@@ -29,7 +29,7 @@ struct TaskButton: View {
             }
             .padding(.vertical)
             .foregroundColor(.black)
-            .background(Color.white)
+            .background(.white)
             .cornerRadius(10)
         }
     }

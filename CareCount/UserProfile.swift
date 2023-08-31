@@ -13,7 +13,7 @@ struct UserProfile: Identifiable {
     var username: String
 }
 
-struct Routine: Identifiable {
+struct Routine: Identifiable, Equatable {
     var id: String      // profile routine belongs to
     var name: String
     var frequency: String

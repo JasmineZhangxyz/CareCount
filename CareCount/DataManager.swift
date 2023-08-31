@@ -76,18 +76,101 @@ class DataManager: ObservableObject {
 
     
     func updateProfileUsername(id: String, newUsername: String) {
-            let db = Firestore.firestore()
-            let ref = db.collection("UserProfiles").document(id)
+        let db = Firestore.firestore()
+        let ref = db.collection("UserProfiles").document(id)
             
-            ref.updateData(["username": newUsername]) { error in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    // Update the username in the local profiles array
-                    if let index = self.profiles.firstIndex(where: { $0.id == id }) {
-                        self.profiles[index].username = newUsername
-                    }
+        ref.updateData(["username": newUsername]) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                // Update the username in the local profiles array
+                if let index = self.profiles.firstIndex(where: { $0.id == id }) {
+                    self.profiles[index].username = newUsername
                 }
             }
         }
+    }
+    
+    func addRoutine(_ routine: Routine) {
+        let db = Firestore.firestore()
+        var ref: DocumentReference? = nil
+        
+        ref = db.collection("Routines").addDocument(data: [
+            "id": routine.id,
+            "name": routine.name,
+            "frequency": routine.frequency,
+            "mon": routine.mon,
+            "tue": routine.tue,
+            "wed": routine.wed,
+            "thu": routine.thu,
+            "fri": routine.fri,
+            "sat": routine.sat,
+            "sun": routine.sun
+        ]) { error in
+            if let error = error {
+                print("Error adding routine: \(error.localizedDescription)")
+            } else {
+                print("Routine added with ID: \(ref!.documentID)")
+            }
+        }
+    }
+
+    func updateRoutine(_ routine: Routine) {
+        let db = Firestore.firestore()
+        let routineRef = db.collection("Routines").document(routine.id)
+        
+        routineRef.updateData([
+            "name": routine.name,
+            "frequency": routine.frequency,
+            "mon": routine.mon,
+            "tue": routine.tue,
+            "wed": routine.wed,
+            "thu": routine.thu,
+            "fri": routine.fri,
+            "sat": routine.sat,
+            "sun": routine.sun
+        ]) { error in
+            if let error = error {
+                print("Error updating routine: \(error.localizedDescription)")
+            } else {
+                print("Routine updated successfully.")
+            }
+        }
+    }
+    
+    func deleteRoutine(forUserID userId: String, withRoutineName routineName: String, completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        let routinesRef = db.collection("Routines")
+        
+        routinesRef.whereField("id", isEqualTo: userId)
+            .whereField("name", isEqualTo: routineName)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error getting documents: \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    print("No matching documents.")
+                    completion(false)
+                    return
+                }
+                
+                for document in documents {
+                    let routineId = document.documentID
+                    let routineRef = routinesRef.document(routineId)
+                    
+                    routineRef.delete { error in
+                        if let error = error {
+                            print("Error deleting routine: \(error.localizedDescription)")
+                            completion(false)
+                        } else {
+                            print("Routine deleted successfully from Firebase.")
+                            completion(true)
+                        }
+                    }
+                }
+            }
+    }
 }
