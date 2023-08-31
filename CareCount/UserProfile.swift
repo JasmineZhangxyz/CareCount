@@ -16,7 +16,6 @@ struct UserProfile: Identifiable {
 struct Routine: Identifiable, Equatable {
     var id: String      // profile routine belongs to
     var name: String
-    var frequency: String
     var mon: Bool
     var tue: Bool
     var wed: Bool

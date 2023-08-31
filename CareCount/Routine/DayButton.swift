@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum Frequency: String, CaseIterable {
-    case daily = "Daily"
-    case allWeekdays = "All Weekdays"
-}
-
 enum Day: String, CaseIterable {
     case sun = "Sun"
     case mon = "Mon"
@@ -39,7 +34,6 @@ enum Day: String, CaseIterable {
 
 struct WeekdaySelectionView: View {
     @Binding var selectedDays: Set<Day>
-    @Binding var selectedFrequency: Frequency
     
     // displays all days as buttons
     var body: some View {
@@ -57,10 +51,6 @@ struct WeekdaySelectionView: View {
             selectedDays.remove(day)
         } else {
             selectedDays.insert(day)
-        }
-        
-        if selectedDays.count == Day.allCases.count {
-            selectedFrequency = .allWeekdays
         }
     }
 }

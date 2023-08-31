@@ -12,7 +12,6 @@ struct TaskButton: View {
     let action: () -> Void
     
     var body: some View {
-        // each task is a button, with name on left and frequency on right
         // clicking on a task lets you edit through AddTaskView
         Button(action: action) {
             HStack {
@@ -37,9 +36,7 @@ struct TaskButton: View {
 
 struct Task {
     var name: String
-    var frequency: Frequency
     var selectedDays: Set<Day>
-    
     var selectedDaysAbbreviated: String {
         if selectedDays.count == Day.allCases.count {
             return "Daily"

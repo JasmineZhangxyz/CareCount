@@ -58,7 +58,6 @@ class DataManager: ObservableObject {
                     
                     let id = data["id"] as? String ?? ""
                     let name = data["name"] as? String ?? ""
-                    let frequency = data["frequency"] as? String ?? ""
                     let mon = data["mon"] as? Bool ?? false
                     let tue = data["tue"] as? Bool ?? false
                     let wed = data["wed"] as? Bool ?? false
@@ -67,7 +66,7 @@ class DataManager: ObservableObject {
                     let sat = data["sat"] as? Bool ?? false
                     let sun = data["sun"] as? Bool ?? false
                     
-                    let routine = Routine(id: id, name: name, frequency: frequency, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
+                    let routine = Routine(id: id, name: name, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
                     self.routines.append(routine)
                 }
             }
@@ -98,7 +97,6 @@ class DataManager: ObservableObject {
         ref = db.collection("Routines").addDocument(data: [
             "id": routine.id,
             "name": routine.name,
-            "frequency": routine.frequency,
             "mon": routine.mon,
             "tue": routine.tue,
             "wed": routine.wed,
@@ -121,7 +119,6 @@ class DataManager: ObservableObject {
         
         routineRef.updateData([
             "name": routine.name,
-            "frequency": routine.frequency,
             "mon": routine.mon,
             "tue": routine.tue,
             "wed": routine.wed,

@@ -18,8 +18,6 @@ struct AddTaskView: View {
     @Binding var newTaskName: String
     @Binding var selectedDays: Set<Day>
     @Binding var oldTaskName: String
-    
-    @State private var selectedFrequency: Frequency = .daily
 
     var body: some View {
         ZStack {
@@ -42,7 +40,7 @@ struct AddTaskView: View {
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
 
-                WeekdaySelectionView(selectedDays: $selectedDays, selectedFrequency: $selectedFrequency)
+                WeekdaySelectionView(selectedDays: $selectedDays)
                     .padding(.horizontal)
                     .padding(.bottom, 30)
                 
@@ -75,7 +73,6 @@ struct AddTaskView: View {
         let newRoutine = Routine(
             id: userId,
             name: newTaskName,
-            frequency: selectedFrequency.rawValue,
             mon: selectedDays.contains(.mon),
             tue: selectedDays.contains(.tue),
             wed: selectedDays.contains(.wed),
@@ -87,13 +84,13 @@ struct AddTaskView: View {
         
         if isEditingTask, let index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
             // update task locally
-            tasks[index] = Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays)
+            tasks[index] = Task(name: newTaskName, selectedDays: selectedDays)
             
             // update routine in Firebase
             dataManager.updateRoutine(newRoutine)
         } else {
             // add task locally
-            tasks.append(Task(name: newTaskName, frequency: selectedFrequency, selectedDays: selectedDays))
+            tasks.append(Task(name: newTaskName, selectedDays: selectedDays))
             
             // add routine to Firebase
             dataManager.addRoutine(newRoutine)

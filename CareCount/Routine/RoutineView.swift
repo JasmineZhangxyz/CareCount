@@ -111,13 +111,7 @@ struct RoutineView: View {
         if routine.sat { selectedDays.insert(.sat) }
         if routine.sun { selectedDays.insert(.sun) }
         
-        var frequency: Frequency = .daily
-        
-        if routine.frequency == Frequency.allWeekdays.rawValue {
-            frequency = .allWeekdays
-        }
-        
-        return Task(name: routine.name, frequency: frequency, selectedDays: selectedDays)
+        return Task(name: routine.name, selectedDays: selectedDays)
     }
 
     func editRoutine(_ routine: Routine) {
