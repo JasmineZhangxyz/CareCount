@@ -1,6 +1,6 @@
 # CareCount
 
-A personal self-care tracker app for iOS
+A personal self-care tracker app for iOS.
 
 ## Demo
 ### Sign in / Sign up
@@ -32,3 +32,6 @@ https://github.com/JasmineZhangxyz/CareCount/assets/37717256/36673b64-1b44-40e6-
 - [Coming soon] users will be able to delete their account.
 
 https://github.com/JasmineZhangxyz/CareCount/assets/37717256/dc498ce6-1216-4667-b5cd-73fb06808654
+
+## Design
+Original UI was created in [Figma](https://www.figma.com/file/AfjFLmjA5bhPnrcta2flEU/CareCount?type=design&node-id=0%3A1&mode=design&t=3NhywfuIm6fn0J54-1).
