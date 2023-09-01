@@ -8,6 +8,31 @@
 import SwiftUI
 import Firebase
 
+enum Day: String, CaseIterable {
+    case sun = "Sun"
+    case mon = "Mon"
+    case tue = "Tue"
+    case wed = "Wed"
+    case thu = "Thu"
+    case fri = "Fri"
+    case sat = "Sat"
+    
+    var abbreviatedValue: String {
+        switch self {
+        case .sun, .sat:
+            return "S"
+        case .mon:
+            return "M"
+        case .tue, .thu:
+            return "T"
+        case .wed:
+            return "W"
+        case .fri:
+            return "F"
+        }
+    }
+}
+
 struct AddTaskView: View {
     // for database
     @EnvironmentObject var authManager: AuthenticationManager
@@ -24,26 +49,32 @@ struct AddTaskView: View {
             Color("popupPink")
                 .ignoresSafeArea()
             VStack {
+                
+                // title
                 Text(isEditingTask ? "Edit task" : "Add a task")
                     .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
                     .padding(.top)
 
+                // task name
                 TextField("Task", text: $newTaskName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
                     .padding(.bottom, 50)
 
+                // frequency title
                 Text("Frequency")
                     .font(.system(size: 24, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.horizontal)
 
+                // days of week task is assigned
                 WeekdaySelectionView(selectedDays: $selectedDays)
                     .padding(.horizontal)
                     .padding(.bottom, 30)
                 
+                // if new task: add, cancel buttons; if editing task: save, delete, cancel buttons
                 ActionButtonsView(
                     saveAction: { onSaveButtonTapped() },
                     deleteAction: { onDeleteButtonTapped() },
@@ -64,14 +95,16 @@ struct AddTaskView: View {
     }
     
     func onSaveButtonTapped() {
+        // get userId
         guard let userId = authManager.userId else {
             print("User ID is not available.")
             closeModal()
             return
         }
         
+        // make new routine
         let newRoutine = Routine(
-            id: userId,
+            id: userId, // so we know the routine belongs to the user
             name: newTaskName,
             mon: selectedDays.contains(.mon),
             tue: selectedDays.contains(.tue),
@@ -83,32 +116,29 @@ struct AddTaskView: View {
         )
         
         if isEditingTask, let index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
-            // update task locally
-            tasks[index] = Task(name: newTaskName, selectedDays: selectedDays)
-            
-            // update routine in Firebase
-            dataManager.updateRoutine(newRoutine)
+            // update
+            tasks[index] = Task(name: newTaskName, selectedDays: selectedDays)  // local
+            dataManager.updateRoutine(newRoutine)   // Firebase
         } else {
-            // add task locally
-            tasks.append(Task(name: newTaskName, selectedDays: selectedDays))
-            
-            // add routine to Firebase
-            dataManager.addRoutine(newRoutine)
+            // add
+            tasks.append(Task(name: newTaskName, selectedDays: selectedDays))   // local
+            dataManager.addRoutine(newRoutine)  // Firebase
         }
         closeModal()
     }
     
     func onDeleteButtonTapped() {
         if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {
-            tasks.remove(at: index)
+            tasks.remove(at: index) // remove locally
             
+            // get userId
             guard let userId = authManager.userId else {
                 print("User ID is not available.")
                 closeModal()
                 return
             }
             
-            // Remove the routine from Firebase
+            // remove from Firebase
             dataManager.deleteRoutine(forUserID: userId, withRoutineName: newTaskName) { success in
                 if success {
                     print("Routine deleted from Firebase.")
@@ -119,13 +149,49 @@ struct AddTaskView: View {
             }
         }
     }
-
     
     func closeModal() { // equivalent to onCancelButtonTapped
-        // clear fields and close popup
         newTaskName = ""
         selectedDays = []
         isPresented = false
+    }
+}
+
+struct WeekdaySelectionView: View {
+    @Binding var selectedDays: Set<Day>
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            // displays each weekday as a round button
+            ForEach(Day.allCases, id: \.self) { day in
+                // if button is clicked, the day is (un)selected for a task
+                Button(action: { toggleDaySelection(day) }) {
+                    // styling of button
+                    Circle()
+                        .stroke(Color("darkPink"), lineWidth: 2)
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(selectedDays.contains(day) ? Color("darkPink") : .clear)
+                        .background(
+                            Circle()
+                                .foregroundColor(selectedDays.contains(day) ? Color("darkPink") : .clear)
+                        )
+                        .overlay(
+                            Text(day.abbreviatedValue)
+                                .foregroundColor(selectedDays.contains(day) ? .white : Color("darkPink"))
+                                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        )
+                        .padding(5)
+                }
+            }
+        }
+    }
+    
+    private func toggleDaySelection(_ day: Day) {
+        if selectedDays.contains(day) {
+            selectedDays.remove(day)
+        } else {
+            selectedDays.insert(day)
+        }
     }
 }
 
@@ -140,39 +206,36 @@ struct ActionButtonsView: View {
             Spacer()
             
             Button(action: saveAction) {
-                ActionButton(label: isEditing ? "Save" : "Add", textcolor: Color.white, color: Color("darkPink"))
+                Text(isEditing ? "Save" : "Add")
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color("darkPink"))
                     .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .cornerRadius(10)
             }
             
+            // only show delete button when editing existing task
             if isEditing {
                 Button(action: deleteAction) {
-                    ActionButton(label: "Delete", textcolor: Color.white, color: Color.gray)
+                    Text("Delete")
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.gray)
                         .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .cornerRadius(10)
                 }
             }
             
             Button(action: cancelAction) {
-                ActionButton(label: "Cancel", textcolor: Color("darkPink"), color: Color.clear)
-                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                Text("Cancel")
+                    .padding()
+                    .foregroundColor(Color("darkPink"))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color("darkPink"), lineWidth: 2)
                     )
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
             }
         }
-    }
-}
-
-struct ActionButton: View {
-    let label: String
-    let textcolor: Color
-    let color: Color
-    
-    var body: some View {
-        Text(label)
-            .padding()
-            .foregroundColor(textcolor)
-            .background(color)
-            .cornerRadius(10)
     }
 }

@@ -42,6 +42,7 @@ struct RoutineView: View {
                     .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                 
+                // list of user's routines
                 ScrollView {
                     VStack(spacing: -10) {
                         ForEach(filteredRoutines) { routine in
@@ -92,14 +93,6 @@ struct RoutineView: View {
         }
 
     }
-    
-    func editTask(_ index: Int) {
-        let task = tasks[index]
-        newTaskName = task.name
-        oldTaskName = task.name
-        selectedDays = task.selectedDays
-        isAddingTask = true
-    }
 
     func routineToTask(_ routine: Routine) -> Task {
         var selectedDays: Set<Day> = []
@@ -128,6 +121,53 @@ struct RoutineView: View {
         oldTaskName = routine.name
         selectedDays = selectedRoutineDays
         isAddingTask = true
+    }
+}
+
+struct TaskButton: View {
+    let task: Task
+    let action: () -> Void
+    
+    var body: some View {
+        // clicking on a task lets you edit through AddTaskView
+        Button(action: action) {
+            HStack {
+                Text(task.name)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading)
+                
+                Spacer()
+                
+                Text(task.selectedDaysAbbreviated)
+                    .font(.system(size: 14, design: .rounded))
+                    .padding(.trailing)
+            }
+            .padding(.vertical)
+            .foregroundColor(.black)
+            .background(.white)
+            .cornerRadius(10)
+        }
+    }
+}
+
+struct Task {
+    var name: String
+    var selectedDays: Set<Day>
+    var selectedDaysAbbreviated: String {
+        if selectedDays.count == Day.allCases.count {
+            return "Daily"
+        }
+        else if selectedDays == Set([.mon, .tue, .wed, .thu, .fri]) {
+            return "Weekdays"
+        }
+        else if selectedDays == Set([.sat, .sun]) {
+            return "Weekends"
+        }
+        else {
+            let sortedDays = Day.allCases.filter { selectedDays.contains($0) }
+            return sortedDays.map { $0.rawValue }.joined(separator: " ")
+        }
     }
 }
 
