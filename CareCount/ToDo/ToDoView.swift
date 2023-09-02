@@ -23,6 +23,7 @@ struct ToDoView: View {
     @State private var todos: [ToDo] = []
     @State private var newToDoName = ""
     @State private var oldToDoName = ""
+    @State private var currentWeather: CurrentWeather?
     
     var body: some View {
         ZStack {
@@ -41,7 +42,14 @@ struct ToDoView: View {
                     .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 3)
-                    
+                
+                // Display current weather
+                if let currentWeather = currentWeather {
+                    Text("Current Weather: \(currentWeather.temperature)°C, Weather Code: \(currentWeather.weathercode)")
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .padding(.top, 20)
+                }
                 
                 // to-do items
                 ScrollView {
@@ -80,7 +88,9 @@ struct ToDoView: View {
                 .fullScreenCover(isPresented: $isAddingToDo) {
                     AddToDoView(isPresented: $isAddingToDo, todos: $todos, newToDoName: $newToDoName, oldToDoName: $oldToDoName)
                 }
-                
+            }
+            .onAppear {
+                fetchWeather() // Fetch weather data when the view appears
             }
         }
     }
@@ -101,12 +111,29 @@ struct ToDoView: View {
     }
     
     // format the date
-        func formatDate(_ date: Date) -> String {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .none
-            return formatter.string(from: date)
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: date)
+    }
+    
+    // Function to fetch weather data
+    private func fetchWeather() {
+        if let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=43.7001&longitude=-79.4163&current_weather=true") {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    if let decodedResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data) {
+                        DispatchQueue.main.async {
+                            self.currentWeather = decodedResponse.current_weather
+                        }
+                        return
+                    }
+                }
+                // Handle errors here
+            }.resume()
         }
+    }
     
     // calculate the completion percentage for the progress bar
     var completionPercentage: Double {
@@ -119,6 +146,16 @@ struct ToDo {
     var name: String
     var isNew: Bool
     var isDone: Bool
+}
+
+struct WeatherResponse: Codable {
+    let current_weather: CurrentWeather
+}
+
+struct CurrentWeather: Codable {
+    let temperature: Double
+    let weathercode: Int
+    // Add other weather properties you want to display
 }
 
 struct ToDoView_Previews: PreviewProvider {
