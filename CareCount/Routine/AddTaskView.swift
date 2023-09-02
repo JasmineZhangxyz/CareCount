@@ -43,6 +43,7 @@ struct AddTaskView: View {
     @Binding var newTaskName: String
     @Binding var selectedDays: Set<Day>
     @Binding var oldTaskName: String
+    @Binding var filteredRoutines: [Routine]
 
     var body: some View {
         ZStack {
@@ -102,30 +103,49 @@ struct AddTaskView: View {
             return
         }
         
-        // make new routine
-        let newRoutine = Routine(
-            id: userId, // so we know the routine belongs to the user
-            name: newTaskName,
-            mon: selectedDays.contains(.mon),
-            tue: selectedDays.contains(.tue),
-            wed: selectedDays.contains(.wed),
-            thu: selectedDays.contains(.thu),
-            fri: selectedDays.contains(.fri),
-            sat: selectedDays.contains(.sat),
-            sun: selectedDays.contains(.sun)
-        )
-        
-        if isEditingTask, let index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
-            // update
-            tasks[index] = Task(name: newTaskName, selectedDays: selectedDays)  // local
-            dataManager.updateRoutine(newRoutine)   // Firebase
+        /*if isEditingTask, let task_index = tasks.firstIndex(where: { $0.name == oldTaskName }) {
+            if let routine_index = filteredRoutines.firstIndex(where: { $0.id == tasks[task_index].id }) {
+                // Update the properties of the existing routine
+                filteredRoutines[routine_index].name = newTaskName
+                filteredRoutines[routine_index].mon = selectedDays.contains(.mon)
+                filteredRoutines[routine_index].tue = selectedDays.contains(.tue)
+                filteredRoutines[routine_index].wed = selectedDays.contains(.wed)
+                filteredRoutines[routine_index].thu = selectedDays.contains(.thu)
+                filteredRoutines[routine_index].fri = selectedDays.contains(.fri)
+                filteredRoutines[routine_index].sat = selectedDays.contains(.sat)
+                filteredRoutines[routine_index].sun = selectedDays.contains(.sun)
+                
+                // Update routine in Firebase
+                dataManager.updateRoutine(filteredRoutines[routine_index])
+            }
+            
+            // Update local task
+            tasks[task_index] = Task(name: newTaskName, selectedDays: selectedDays)
         } else {
-            // add
-            tasks.append(Task(name: newTaskName, selectedDays: selectedDays))   // local
-            dataManager.addRoutine(newRoutine)  // Firebase
-        }
+            // Create a new routine
+            let newRoutine = Routine(
+                uid: userId,
+                id: UUID().uuidString, // Generate a new unique ID
+                name: newTaskName,
+                mon: selectedDays.contains(.mon),
+                tue: selectedDays.contains(.tue),
+                wed: selectedDays.contains(.wed),
+                thu: selectedDays.contains(.thu),
+                fri: selectedDays.contains(.fri),
+                sat: selectedDays.contains(.sat),
+                sun: selectedDays.contains(.sun)
+            )
+            
+            // Add new routine to Firebase
+            dataManager.addRoutine(newRoutine)
+            
+            // Add new task locally
+            tasks.append(Task(name: newTaskName, selectedDays: selectedDays))
+        }*/
+        
         closeModal()
     }
+
     
     func onDeleteButtonTapped() {
         if let index = tasks.firstIndex(where: { $0.name == newTaskName }) {

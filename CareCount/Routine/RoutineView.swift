@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct RoutineView: View {
     // for database
@@ -45,7 +46,7 @@ struct RoutineView: View {
                 // list of user's routines
                 ScrollView {
                     VStack(spacing: -10) {
-                        ForEach(filteredRoutines) { routine in
+                        ForEach(dataManager.routines) { routine in
                             TaskButton(task: routineToTask(routine), action: {
                                 editRoutine(routine)
                             })
@@ -67,31 +68,17 @@ struct RoutineView: View {
                 }
                 .padding()
                 .fullScreenCover(isPresented: $isAddingTask) {
-                    AddTaskView(isPresented: $isAddingTask, tasks: $tasks, newTaskName: $newTaskName, selectedDays: $selectedDays, oldTaskName: $oldTaskName)
+                    AddTaskView(
+                        isPresented: $isAddingTask,
+                        tasks: $tasks,
+                        newTaskName: $newTaskName,
+                        selectedDays: $selectedDays,
+                        oldTaskName: $oldTaskName,
+                        filteredRoutines: $filteredRoutines
+                    )
                 }
             }
         }
-        .onAppear {
-            guard let userId = authManager.userId else {
-                return
-            }
-            dataManager.fetchRoutines() // Fetch all routines first
-            filteredRoutines = dataManager.routines.filter { $0.id == userId }
-            print("Fetching routines for user: \(authManager.userId ?? "Unknown User")")
-            print("Filtered routines for user \(userId ): \(filteredRoutines.count)")
-        }
-        /*.onChange(of: dataManager.routines) { _ in
-            let userId = authManager.userId
-            filteredRoutines = dataManager.routines.filter { $0.id == userId }
-        }*/
-        .onChange(of: dataManager.routines) { newRoutines in
-            let userId = authManager.userId
-            filteredRoutines = newRoutines.filter { $0.id == userId }
-                    
-            print("Routines fetched: \(newRoutines.count)")
-            print("Filtered routines for user \(userId ?? "Unknown User"): \(filteredRoutines.count)")
-        }
-
     }
 
     func routineToTask(_ routine: Routine) -> Task {

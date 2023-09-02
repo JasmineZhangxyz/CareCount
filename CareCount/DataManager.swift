@@ -56,6 +56,7 @@ class DataManager: ObservableObject {
                 for document in snapshot.documents {
                     let data = document.data()
                     
+                    let uid = data["uid"] as? String ?? ""
                     let id = data["id"] as? String ?? ""
                     let name = data["name"] as? String ?? ""
                     let mon = data["mon"] as? Bool ?? false
@@ -66,7 +67,7 @@ class DataManager: ObservableObject {
                     let sat = data["sat"] as? Bool ?? false
                     let sun = data["sun"] as? Bool ?? false
                     
-                    let routine = Routine(id: id, name: name, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
+                    let routine = Routine(uid: uid, id: id, name: name, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
                     self.routines.append(routine)
                 }
             }
@@ -95,6 +96,7 @@ class DataManager: ObservableObject {
         var ref: DocumentReference? = nil
         
         ref = db.collection("Routines").addDocument(data: [
+            "uid": routine.uid,
             "id": routine.id,
             "name": routine.name,
             "mon": routine.mon,
