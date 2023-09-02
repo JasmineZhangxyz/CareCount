@@ -31,25 +31,23 @@ struct ToDoView: View {
                 .ignoresSafeArea()
             
             VStack {
+                // current weather
+                if let currentWeather = currentWeather {
+                    WeatherView(weatherCode: currentWeather.weathercode, temperature: currentWeather.temperature)
+                        .padding(.top, 75)
+                }
+                
                 // date
                 Text(formatDate(currentDate))
                     .font(.system(size: 24, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
-                    .padding(.top, 75)
+                    .padding(.top, 10)
                 
                 // title
                 Text("To-Do List")
                     .font(.system(size: 45, weight: .bold, design: .rounded))
                     .foregroundColor(Color("darkPink"))
                     .padding(.top, 3)
-                
-                // Display current weather
-                if let currentWeather = currentWeather {
-                    Text("Current Weather: \(currentWeather.temperature)°C, Weather Code: \(currentWeather.weathercode)")
-                        .font(.system(size: 20, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .padding(.top, 20)
-                }
                 
                 // to-do items
                 ScrollView {
@@ -155,7 +153,52 @@ struct WeatherResponse: Codable {
 struct CurrentWeather: Codable {
     let temperature: Double
     let weathercode: Int
-    // Add other weather properties you want to display
+    // can add other weather properties to display here
+}
+
+struct WeatherView: View {
+    let weatherCode: Int
+    let temperature: Double
+
+    var body: some View {
+        HStack {
+            iconForWeatherCode(weatherCode)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+                .foregroundColor(Color("darkPink"))
+            Text(String(format: "%.0f°C", temperature))
+                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .foregroundColor(Color("darkPink"))
+        }
+    }
+
+    private func iconForWeatherCode(_ code: Int) -> Image {
+        switch code {
+        case 0:
+            return Image(systemName: "sun.max.fill")
+        case 1, 2:
+            return Image(systemName: "cloud.sun.fill")
+        case 3:
+            return Image(systemName: "cloud.fill")
+        case 45, 48:
+            return Image(systemName: "cloud.fog.fill")
+        case 51, 53, 55, 56, 57:
+            return Image(systemName: "cloud.drizzle.fill")
+        case 61, 63, 66, 80, 81:
+            return Image(systemName: "cloud.rain.fill")
+        case 65, 67, 82:
+            return Image(systemName: "cloud.heavyrain.fill")
+        case 71, 73, 75, 85, 86:
+            return Image(systemName: "snowflake")
+        case 77:
+            return Image(systemName: "cloud.hail.fill")
+        case 95, 96, 99:
+            return Image(systemName: "cloud.bolt.fill")
+        default:
+            return Image(systemName: "thermometer.medium")
+        }
+    }
 }
 
 struct ToDoView_Previews: PreviewProvider {
