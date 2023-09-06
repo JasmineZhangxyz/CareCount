@@ -24,6 +24,7 @@ struct ToDoView: View {
     @State private var newToDoName = ""
     @State private var oldToDoName = ""
     @State private var currentWeather: CurrentWeather?
+    @StateObject var locationManager = LocationManager()
     
     var body: some View {
         ZStack {
@@ -132,7 +133,7 @@ struct ToDoView: View {
             }.resume()
         }
     }
-    
+        
     // calculate the completion percentage for the progress bar
     var completionPercentage: Double {
         let completedCount = todos.filter { $0.isDone }.count

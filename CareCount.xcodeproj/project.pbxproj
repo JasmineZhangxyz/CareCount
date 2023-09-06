@@ -25,12 +25,15 @@
 		249307822A9EFE71005522D5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 249307812A9EFE71005522D5 /* FirebaseAuth */; };
 		249307842A9EFE71005522D5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 249307832A9EFE71005522D5 /* FirebaseFirestore */; };
 		249307872A9EFF2F005522D5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 249307862A9EFF2F005522D5 /* FirebaseAnalytics */; };
-		249307892A9EFF9A005522D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 249307882A9EFF9A005522D5 /* GoogleService-Info.plist */; };
 		2493078C2A9F2441005522D5 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078B2A9F2441005522D5 /* UserProfile.swift */; };
 		2493078E2A9F265B005522D5 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078D2A9F265B005522D5 /* DataManager.swift */; };
 		249307902A9FE473005522D5 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2493078F2A9FE473005522D5 /* AuthenticationManager.swift */; };
 		CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EB2A9E463B00329574 /* SignInView.swift */; };
 		CC3026F02A9E46BD00329574 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3026EF2A9E46BD00329574 /* SignUpView.swift */; };
+		CC8E3C582AA784EE0097EBDA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CC8E3C572AA784EE0097EBDA /* GoogleService-Info.plist */; };
+		CC8E3C5B2AA788410097EBDA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8E3C5A2AA788410097EBDA /* LocationManager.swift */; };
+		CC8E3C5F2AA7B0720097EBDA /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8E3C5E2AA7B0720097EBDA /* LoadingView.swift */; };
+		CC8E3C612AA7B4C30097EBDA /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8E3C602AA7B4C30097EBDA /* LocationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,12 +53,15 @@
 		249307452A9DB344005522D5 /* AddToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDoView.swift; sourceTree = "<group>"; };
 		249307492A9DCA56005522D5 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		249307532A9E6964005522D5 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
-		249307882A9EFF9A005522D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2493078B2A9F2441005522D5 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		2493078D2A9F265B005522D5 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		2493078F2A9FE473005522D5 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		CC3026EB2A9E463B00329574 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		CC3026EF2A9E46BD00329574 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		CC8E3C572AA784EE0097EBDA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CC8E3C5A2AA788410097EBDA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		CC8E3C5E2AA7B0720097EBDA /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		CC8E3C602AA7B4C30097EBDA /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,11 +108,14 @@
 				249307232A9D1725005522D5 /* LandingView.swift */,
 				2493073F2A9D7757005522D5 /* HomeView.swift */,
 				249307412A9D7A4C005522D5 /* ProfileView.swift */,
+				CC8E3C602AA7B4C30097EBDA /* LocationView.swift */,
+				CC8E3C5E2AA7B0720097EBDA /* LoadingView.swift */,
 				2493073D2A9D68E6005522D5 /* ContentView.swift */,
+				CC8E3C572AA784EE0097EBDA /* GoogleService-Info.plist */,
 				249307312A9D194F005522D5 /* CustomButtonStyle.swift */,
 				249307332A9D2038005522D5 /* ListItems.swift */,
-				249307882A9EFF9A005522D5 /* GoogleService-Info.plist */,
 				249307252A9D1726005522D5 /* Assets.xcassets */,
+				CC8E3C592AA788280097EBDA /* Managers */,
 				249307272A9D1726005522D5 /* Preview Content */,
 			);
 			path = CareCount;
@@ -154,6 +163,14 @@
 				CC3026EB2A9E463B00329574 /* SignInView.swift */,
 			);
 			path = SignInUp;
+			sourceTree = "<group>";
+		};
+		CC8E3C592AA788280097EBDA /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				CC8E3C5A2AA788410097EBDA /* LocationManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,7 +241,7 @@
 			files = (
 				249307292A9D1726005522D5 /* Preview Assets.xcassets in Resources */,
 				249307262A9D1726005522D5 /* Assets.xcassets in Resources */,
-				249307892A9EFF9A005522D5 /* GoogleService-Info.plist in Resources */,
+				CC8E3C582AA784EE0097EBDA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +256,7 @@
 				2493078E2A9F265B005522D5 /* DataManager.swift in Sources */,
 				249307422A9D7A4C005522D5 /* ProfileView.swift in Sources */,
 				2493073E2A9D68E6005522D5 /* ContentView.swift in Sources */,
+				CC8E3C612AA7B4C30097EBDA /* LocationView.swift in Sources */,
 				249307542A9E6964005522D5 /* AddTaskView.swift in Sources */,
 				249307302A9D18CC005522D5 /* RoutineView.swift in Sources */,
 				249307322A9D194F005522D5 /* CustomButtonStyle.swift in Sources */,
@@ -248,10 +266,12 @@
 				CC3026EC2A9E463B00329574 /* SignInView.swift in Sources */,
 				249307402A9D7757005522D5 /* HomeView.swift in Sources */,
 				249307442A9DAE72005522D5 /* ToDoButton.swift in Sources */,
+				CC8E3C5F2AA7B0720097EBDA /* LoadingView.swift in Sources */,
 				CC3026F02A9E46BD00329574 /* SignUpView.swift in Sources */,
 				2493074A2A9DCA56005522D5 /* ProgressBar.swift in Sources */,
 				249307382A9D6008005522D5 /* ToDoView.swift in Sources */,
 				249307222A9D1725005522D5 /* CareCountApp.swift in Sources */,
+				CC8E3C5B2AA788410097EBDA /* LocationManager.swift in Sources */,
 				2493078C2A9F2441005522D5 /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
