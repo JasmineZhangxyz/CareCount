@@ -259,6 +259,63 @@ struct SelectLocationView: View {
     }
 }
 
+struct ProgressBar: View {
+    var value: Double
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: geometry.size.height / 2)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .opacity(0.3)
+                    .foregroundColor(Color.gray)
+                
+                RoundedRectangle(cornerRadius: geometry.size.height / 2)
+                    .frame(width: min(CGFloat(self.value) * geometry.size.width, geometry.size.width), height: geometry.size.height)
+                    .foregroundColor(Color("darkPink"))
+            }
+        }
+    }
+}
+
+struct ToDoButton: View {
+    let todo: ToDo
+    let action: () -> Void
+    let completeAction: () -> Void
+    let deleteAction: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            action()
+        }) {
+            HStack {
+                Button(action: completeAction){
+                    Image(systemName: todo.isDone ? "checkmark.square.fill" : "square")
+                        .padding(.leading)
+                }
+                
+                Text(todo.name)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 10)
+                
+                Spacer()
+                
+                Button(action: deleteAction) {
+                    Image(systemName: "trash.fill")
+                        .padding(.trailing)
+                        .foregroundColor(Color("darkPink"))
+                }
+            }
+            .padding(.vertical)
+            .foregroundColor(.black)
+            .background(Color.white)
+            .cornerRadius(10)
+            .opacity(todo.isDone ? 0.5 : 1.0)
+        }
+    }
+}
+
 struct ToDoView_Previews: PreviewProvider {
     static var previews: some View {
         ToDoView()
