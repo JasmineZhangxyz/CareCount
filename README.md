@@ -22,6 +22,7 @@ https://github.com/JasmineZhangxyz/CareCount/assets/37717256/a38aff3c-9580-483a-
 ### To-Do List
 - Displays the daily to-do list for a user.
 - To-do list items can be added, edited, and deleted manually.
+- [New] displays the current weather + allows users to choose their location. Weather information provided by [Open-Meteo](https://open-meteo.com/).
 - [Coming soon] the daily to-do list will be pre-populated first with the user's routine.
 
 https://github.com/JasmineZhangxyz/CareCount/assets/37717256/36673b64-1b44-40e6-ae89-ef318a51c529
