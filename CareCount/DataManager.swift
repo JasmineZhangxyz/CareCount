@@ -36,9 +36,14 @@ struct ToDoItem: Identifiable {
 class DataManager: ObservableObject {
     @Published var profiles: [UserProfile] = []
     @Published var routines: [Routine] = []
+    @Published var filteredRoutines: [Routine] = []
     @Published var todos: [ToDoItem] = []
     
-    init() {
+    let authManager: AuthenticationManager
+    
+    init(authManager: AuthenticationManager) {
+        self.authManager = authManager
+        
         // init Firestore references
         let db = Firestore.firestore()
         let userProfileRef = db.collection("UserProfiles")
@@ -49,10 +54,6 @@ class DataManager: ObservableObject {
         setupProfileListener(for: userProfileRef)
         setupRoutinesListener(for: routinesRef)
         setupTodosListener(for: todosRef)
-        
-        //fetchProfiles()
-        //fetchRoutines()
-        //fetchToDos()
     }
     
     private func setupProfileListener(for ref: CollectionReference) {
@@ -83,7 +84,7 @@ class DataManager: ObservableObject {
         }
     }
     
-    private func setupRoutinesListener(for ref: CollectionReference) {
+    func setupRoutinesListener(for ref: CollectionReference) {
         routines.removeAll()
         ref.addSnapshotListener { snapshot, error in
         // ref.getDocuments { snapshot, error in
@@ -114,8 +115,21 @@ class DataManager: ObservableObject {
                     let routine = Routine(uid: uid, id: id, name: name, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
                     self.routines.append(routine)
                 }
+                
+                // Update filteredRoutines here
+                self.updateFilteredRoutines()
             }
         }
+    }
+    
+    func updateFilteredRoutines() {
+        // Access the userId from the authManager
+        guard let userId = authManager.userId else {
+            // Handle the case where userId is nil
+            return
+        }
+        
+        self.filteredRoutines = self.routines.filter { $0.uid == userId }
     }
     
     private func setupTodosListener(for ref: CollectionReference) {
@@ -214,12 +228,12 @@ class DataManager: ObservableObject {
         }
     }
     
-    func deleteRoutine(forUserID userId: String, withRoutineName routineName: String, completion: @escaping (Bool) -> Void) {
+    func deleteRoutine(forUserID userId: String, routineID: String, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         let routinesRef = db.collection("Routines")
         
-        routinesRef.whereField("id", isEqualTo: userId)
-            .whereField("name", isEqualTo: routineName)
+        routinesRef.whereField("uid", isEqualTo: userId)
+            .whereField("id", isEqualTo: routineID)
             .getDocuments { snapshot, error in
                 if let error = error {
                     print("Error getting documents: \(error.localizedDescription)")

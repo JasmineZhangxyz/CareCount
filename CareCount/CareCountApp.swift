@@ -20,7 +20,7 @@ struct CareCountApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject var authenticationManager = AuthenticationManager()
-    @StateObject var dataManager = DataManager()
+    @StateObject var dataManager: DataManager = DataManager(authManager: AuthenticationManager())
     
     var body: some Scene {
         WindowGroup {

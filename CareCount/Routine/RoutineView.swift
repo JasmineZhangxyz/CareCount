@@ -21,7 +21,6 @@ struct RoutineView: View {
     }
     
     @State private var isAddingTask = false
-    @State private var tasks: [Task] = []
     @State private var newTaskName = ""
     @State private var selectedDays: Set<Day> = []
     @State private var oldTaskName = ""
@@ -54,6 +53,18 @@ struct RoutineView: View {
                         }
                     }
                 }
+                .onAppear {
+                    // Fetch or load the user's routines when the view appears
+                    if let userId = authManager.userId {
+                        // Access the userId from the authManager
+                        let db = Firestore.firestore()
+                        let routinesRef = db.collection("Routines")
+                        dataManager.setupRoutinesListener(for: routinesRef)
+                        
+                        filteredRoutines = dataManager.filteredRoutines // Use the filteredRoutines property
+                        print(filteredRoutines)
+                    }
+                }
                 
                 // add button
                 Button(action: { isAddingTask = true }) {
@@ -63,14 +74,13 @@ struct RoutineView: View {
                         .frame(width: 75)
                         .padding()
                         .foregroundColor(.black)
-                        .background(Color.white)
+                        .background(.white)
                         .cornerRadius(25)
                 }
                 .padding()
                 .fullScreenCover(isPresented: $isAddingTask) {
                     AddTaskView(
                         isPresented: $isAddingTask,
-                        tasks: $tasks,
                         newTaskName: $newTaskName,
                         selectedDays: $selectedDays,
                         oldTaskName: $oldTaskName,
@@ -160,8 +170,13 @@ struct Task {
 
 struct RoutineView_Previews: PreviewProvider {
     static var previews: some View {
-        RoutineView()
-            .environmentObject(AuthenticationManager())
-            .environmentObject(DataManager())
+        // Create instances of AuthenticationManager and DataManager
+        let authManager = AuthenticationManager()
+        let dataManager = DataManager(authManager: authManager)
+
+        // Pass them as environment objects to RoutineView
+        return RoutineView()
+            .environmentObject(authManager)
+            .environmentObject(dataManager)
     }
 }
