@@ -22,7 +22,11 @@ class DataManager: ObservableObject {
         let ref = db.collection("UserProfiles")
         ref.getDocuments { snapshot, error in
             guard error == nil else {
-                print(error?.localizedDescription)
+                if let errorDescription = error?.localizedDescription {
+                    print(errorDescription)
+                } else {
+                    print("Unknown error occurred")
+                }
                 return
             }
             
@@ -48,7 +52,11 @@ class DataManager: ObservableObject {
         
         ref.getDocuments { snapshot, error in
             guard error == nil else {
-                print(error?.localizedDescription)
+                if let errorDescription = error?.localizedDescription {
+                    print(errorDescription)
+                } else {
+                    print("Unknown error occurred")
+                }
                 return
             }
             
