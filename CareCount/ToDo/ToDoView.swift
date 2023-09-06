@@ -120,37 +120,7 @@ struct ToDoView: View {
         }
     }
     
-    func editToDo(_ index: Int) {
-        newToDoName = todos[index].name
-        oldToDoName = todos[index].name
-        isAddingToDo = true
-    }
-    
-    func completeToDo(_ index: Int) {
-        todos[index].isDone.toggle()
-    }
-    
-    func deleteToDo(at index: Int) {
-        todos.remove(at: index)
-        newToDoName = ""
-    }
-    
-    // format the date
-    func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: date)
-    }
-    
-    let cityCoordinates: [String: (latitude: Double, longitude: Double)] = [
-        "Toronto (Default)": (43.7001, -79.4163),
-        "New York": (40.7128, -74.0060),
-        "Chicago": (41.8781, -87.6298),
-        "San Francisco": (37.7749, -122.4194),
-        "Seattle": (47.6062, -122.3321)
-    ]
-    
+    // weather
     func iconForWeatherCode(_ code: Int) -> Image {
         switch code {
         case 0:
@@ -178,6 +148,14 @@ struct ToDoView: View {
         }
     }
     
+    let cityCoordinates: [String: (latitude: Double, longitude: Double)] = [
+        "Toronto (Default)": (43.7001, -79.4163),
+        "New York": (40.7128, -74.0060),
+        "Chicago": (41.8781, -87.6298),
+        "San Francisco": (37.7749, -122.4194),
+        "Seattle": (47.6062, -122.3321)
+    ]
+    
     func fetchWeather() {
         if let (latitude, longitude) = cityCoordinates[selectedCity] {
             let urlString = "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current_weather=true"
@@ -196,8 +174,32 @@ struct ToDoView: View {
             }
         }
     }
+    
+    // format the date
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: date)
+    }
+    
+    // todo
+    func editToDo(_ index: Int) {
+        newToDoName = todos[index].name
+        oldToDoName = todos[index].name
+        isAddingToDo = true
+    }
+    
+    func completeToDo(_ index: Int) {
+        todos[index].isDone.toggle()
+    }
+    
+    func deleteToDo(at index: Int) {
+        todos.remove(at: index)
+        newToDoName = ""
+    }
 
-    // calculate the completion percentage for the progress bar
+    // progress bar
     var completionPercentage: Double {
         let completedCount = todos.filter { $0.isDone }.count
         return Double(completedCount) / Double(todos.count)
