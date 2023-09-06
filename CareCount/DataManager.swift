@@ -7,20 +7,58 @@
 
 import Firebase
 
+struct UserProfile: Identifiable {
+    var id: String
+    var email: String
+    var username: String
+}
+
+struct Routine: Identifiable, Equatable {
+    var uid: String      // profile routine belongs to
+    var id: String
+    var name: String
+    var mon: Bool
+    var tue: Bool
+    var wed: Bool
+    var thu: Bool
+    var fri: Bool
+    var sat: Bool
+    var sun: Bool
+}
+
+struct ToDoItem: Identifiable {
+    var uid: String      // profile that todo belongs to
+    var id: String      // id of todo itself
+    var name: String
+    var done: Bool
+}
+
 class DataManager: ObservableObject {
     @Published var profiles: [UserProfile] = []
     @Published var routines: [Routine] = []
+    @Published var todos: [ToDoItem] = []
     
     init() {
-        fetchProfiles()
-        fetchRoutines()
+        // init Firestore references
+        let db = Firestore.firestore()
+        let userProfileRef = db.collection("UserProfiles")
+        let routinesRef = db.collection("Routines")
+        let todosRef = db.collection("ToDos")
+        
+        // Set up listeners for changes in Firebase collections
+        setupProfileListener(for: userProfileRef)
+        setupRoutinesListener(for: routinesRef)
+        setupTodosListener(for: todosRef)
+        
+        //fetchProfiles()
+        //fetchRoutines()
+        //fetchToDos()
     }
     
-    func fetchProfiles() {
+    private func setupProfileListener(for ref: CollectionReference) {
         profiles.removeAll()
-        let db = Firestore.firestore()
-        let ref = db.collection("UserProfiles")
-        ref.getDocuments { snapshot, error in
+        ref.addSnapshotListener { snapshot, error in
+        // ref.getDocuments { snapshot, error in
             guard error == nil else {
                 if let errorDescription = error?.localizedDescription {
                     print(errorDescription)
@@ -45,12 +83,10 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchRoutines() {
+    private func setupRoutinesListener(for ref: CollectionReference) {
         routines.removeAll()
-        let db = Firestore.firestore()
-        let ref = db.collection("Routines")
-        
-        ref.getDocuments { snapshot, error in
+        ref.addSnapshotListener { snapshot, error in
+        // ref.getDocuments { snapshot, error in
             guard error == nil else {
                 if let errorDescription = error?.localizedDescription {
                     print(errorDescription)
@@ -77,6 +113,39 @@ class DataManager: ObservableObject {
                     
                     let routine = Routine(uid: uid, id: id, name: name, mon: mon, tue: tue, wed: wed, thu: thu, fri: fri, sat: sat, sun: sun)
                     self.routines.append(routine)
+                }
+            }
+        }
+    }
+    
+    private func setupTodosListener(for ref: CollectionReference) {
+        todos.removeAll()
+        
+        // let db = Firestore.firestore()
+        // let ref = db.collection("ToDos")
+        
+        // ref.getDocuments { snapshot, error in
+        ref.addSnapshotListener { snapshot, error in
+            guard error == nil else {
+                if let errorDescription = error?.localizedDescription {
+                    print(errorDescription)
+                } else {
+                    print("Unknown error occurred")
+                }
+                return
+            }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    
+                    let uid = data["uid"] as? String ?? ""
+                    let id = data["id"] as? String ?? ""
+                    let name = data["name"] as? String ?? ""
+                    let done = data["done"] as? Bool ?? false
+                    
+                    let todo = ToDoItem(uid: uid, id: id, name: name, done: done)
+                    self.todos.append(todo)
                 }
             }
         }
