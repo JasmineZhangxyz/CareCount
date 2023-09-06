@@ -24,7 +24,10 @@ struct ToDoView: View {
     @State private var newToDoName = ""
     @State private var oldToDoName = ""
     @State private var currentWeather: CurrentWeather?
-    @StateObject var locationManager = LocationManager()
+    
+    @State private var isInfoViewShown = false
+    @State private var selectedCity = "Toronto (Default)"
+
     
     var body: some View {
         ZStack {
@@ -34,8 +37,28 @@ struct ToDoView: View {
             VStack {
                 // current weather
                 if let currentWeather = currentWeather {
-                    WeatherView(weatherCode: currentWeather.weathercode, temperature: currentWeather.temperature)
-                        .padding(.top, 75)
+                    HStack {
+                        HStack {
+                            iconForWeatherCode(currentWeather.weathercode)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color("darkPink"))
+                            Text(String(format: "%.0f°C", currentWeather.temperature))
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
+                                .foregroundColor(Color("darkPink"))
+                            Image(systemName: "info.circle.fill")
+                                .foregroundColor(Color("darkGray"))
+                                .onTapGesture {
+                                    isInfoViewShown = true
+                                }
+                                .fullScreenCover(isPresented: $isInfoViewShown) {
+                                    SelectLocationView(isInfoViewShown: $isInfoViewShown, selectedCity: $selectedCity)
+                                }
+
+                        }
+                    }
+                    .padding(.top, 75)
                 }
                 
                 // date
@@ -91,6 +114,9 @@ struct ToDoView: View {
             .onAppear {
                 fetchWeather() // Fetch weather data when the view appears
             }
+            .onChange(of: selectedCity) { _ in
+                fetchWeather()
+            }
         }
     }
     
@@ -117,23 +143,60 @@ struct ToDoView: View {
         return formatter.string(from: date)
     }
     
-    // Function to fetch weather data
-    private func fetchWeather() {
-        if let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=43.7001&longitude=-79.4163&current_weather=true") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data {
-                    if let decodedResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data) {
-                        DispatchQueue.main.async {
-                            self.currentWeather = decodedResponse.current_weather
-                        }
-                        return
-                    }
-                }
-                // Handle errors here
-            }.resume()
+    let cityCoordinates: [String: (latitude: Double, longitude: Double)] = [
+        "Toronto (Default)": (43.7001, -79.4163),
+        "New York": (40.7128, -74.0060),
+        "Chicago": (41.8781, -87.6298),
+        "San Francisco": (37.7749, -122.4194),
+        "Seattle": (47.6062, -122.3321)
+    ]
+    
+    func iconForWeatherCode(_ code: Int) -> Image {
+        switch code {
+        case 0:
+            return Image(systemName: "sun.min.fill")
+        case 1, 2:
+            return Image(systemName: "cloud.sun.fill")
+        case 3:
+            return Image(systemName: "cloud.fill")
+        case 45, 48:
+            return Image(systemName: "cloud.fog.fill")
+        case 51, 53, 55, 56, 57:
+            return Image(systemName: "cloud.drizzle.fill")
+        case 61, 63, 66, 80, 81:
+            return Image(systemName: "cloud.rain.fill")
+        case 65, 67, 82:
+            return Image(systemName: "cloud.heavyrain.fill")
+        case 71, 73, 75, 85, 86:
+            return Image(systemName: "snowflake")
+        case 77:
+            return Image(systemName: "cloud.hail.fill")
+        case 95, 96, 99:
+            return Image(systemName: "cloud.bolt.fill")
+        default:
+            return Image(systemName: "thermometer.medium")
         }
     }
-        
+    
+    func fetchWeather() {
+        if let (latitude, longitude) = cityCoordinates[selectedCity] {
+            let urlString = "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current_weather=true"
+            if let url = URL(string: urlString) {
+                URLSession.shared.dataTask(with: url) { data, response, error in
+                    if let data = data {
+                        if let decodedResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data) {
+                            DispatchQueue.main.async {
+                                self.currentWeather = decodedResponse.current_weather
+                            }
+                            return
+                        }
+                    }
+                    // Handle errors here
+                }.resume()
+            }
+        }
+    }
+
     // calculate the completion percentage for the progress bar
     var completionPercentage: Double {
         let completedCount = todos.filter { $0.isDone }.count
@@ -157,48 +220,42 @@ struct CurrentWeather: Codable {
     // can add other weather properties to display here
 }
 
-struct WeatherView: View {
-    let weatherCode: Int
-    let temperature: Double
-
+struct SelectLocationView: View {
+    @State private var selectedCityIndex = 0
+    let cities = ["Toronto (Default)", "New York", "Chicago", "San Francisco", "Seatle"]
+    @Binding var isInfoViewShown: Bool
+    @Binding var selectedCity: String
+    
     var body: some View {
-        HStack {
-            iconForWeatherCode(weatherCode)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-                .foregroundColor(Color("darkPink"))
-            Text(String(format: "%.0f°C", temperature))
+        VStack {
+            VStack() {
+                Text("Show weather for")
+                    .bold()
+                    .foregroundColor(Color("darkPink"))
+                    .font(.system(size: 35, weight: .bold, design: .rounded))
+                
+                Picker("Select City", selection: $selectedCityIndex) {
+                    ForEach(0..<cities.count, id: \.self) { index in
+                        Text(cities[index]).tag(index)
+                    }
+                }
+                .pickerStyle(InlinePickerStyle())
+                .padding(.top, -40)
+                .onChange(of: selectedCityIndex) { newValue in
+                    selectedCity = cities[newValue]
+                }
+                
+                Button("Save") {
+                    isInfoViewShown = false
+                }
                 .font(.system(size: 20, weight: .bold, design: .rounded))
                 .foregroundColor(Color("darkPink"))
+            }
+            .multilineTextAlignment(.center)
+            .padding()
         }
-    }
-
-    private func iconForWeatherCode(_ code: Int) -> Image {
-        switch code {
-        case 0:
-            return Image(systemName: "sun.max.fill")
-        case 1, 2:
-            return Image(systemName: "cloud.sun.fill")
-        case 3:
-            return Image(systemName: "cloud.fill")
-        case 45, 48:
-            return Image(systemName: "cloud.fog.fill")
-        case 51, 53, 55, 56, 57:
-            return Image(systemName: "cloud.drizzle.fill")
-        case 61, 63, 66, 80, 81:
-            return Image(systemName: "cloud.rain.fill")
-        case 65, 67, 82:
-            return Image(systemName: "cloud.heavyrain.fill")
-        case 71, 73, 75, 85, 86:
-            return Image(systemName: "snowflake")
-        case 77:
-            return Image(systemName: "cloud.hail.fill")
-        case 95, 96, 99:
-            return Image(systemName: "cloud.bolt.fill")
-        default:
-            return Image(systemName: "thermometer.medium")
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("backgroundPink"))
     }
 }
 
