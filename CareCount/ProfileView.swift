@@ -198,8 +198,13 @@ struct EditProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
-            .environmentObject(AuthenticationManager())
-            .environmentObject(DataManager())
+        // Create instances of AuthenticationManager and DataManager
+        let authManager = AuthenticationManager()
+        let dataManager = DataManager(authManager: authManager)
+
+        // Pass them as environment objects to RoutineView
+        return ProfileView()
+            .environmentObject(authManager)
+            .environmentObject(dataManager)
     }
 }
