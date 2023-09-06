@@ -202,6 +202,7 @@ class DataManager: ObservableObject {
                 print("Error adding routine: \(error.localizedDescription)")
             } else {
                 print("Routine added with ID: \(ref!.documentID)")
+                self.setupRoutinesListener(for: db.collection("Routines"))
             }
         }
     }
@@ -224,6 +225,7 @@ class DataManager: ObservableObject {
                 print("Error updating routine: \(error.localizedDescription)")
             } else {
                 print("Routine updated successfully.")
+                self.setupRoutinesListener(for: db.collection("Routines"))
             }
         }
     }
@@ -257,6 +259,7 @@ class DataManager: ObservableObject {
                             completion(false)
                         } else {
                             print("Routine deleted successfully from Firebase.")
+                            self.setupRoutinesListener(for: db.collection("Routines"))
                             completion(true)
                         }
                     }

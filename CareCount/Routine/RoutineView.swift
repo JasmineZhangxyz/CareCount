@@ -55,7 +55,7 @@ struct RoutineView: View {
                 }
                 .onAppear {
                     // Fetch or load the user's routines when the view appears
-                    if let userId = authManager.userId {
+                    if let _ = authManager.userId {
                         // Access the userId from the authManager
                         let db = Firestore.firestore()
                         let routinesRef = db.collection("Routines")
