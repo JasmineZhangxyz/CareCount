@@ -98,7 +98,7 @@ struct AddTaskView: View {
     func onSaveButtonTapped() {
         // get userId
         guard let userId = authManager.userId else {
-            print("User ID is not available.")
+            print("User ID is not available. Test")
             closeModal()
             return
         }
